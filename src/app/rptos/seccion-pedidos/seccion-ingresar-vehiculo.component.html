@@ -1,0 +1,19 @@
+
+  <mat-tab-group class="m-4">
+
+    <mat-tab label="Registrar Vehiculo">
+      <form class="flex flex-column" [formGroup]="vehiculoFormulario" (ngSubmit)="guardarVehiculo()">
+
+        <mat-form-field class="m-1" *ngFor="let item of items">
+          <mat-label>{{item.name}}</mat-label>
+          <input type="text" matInput placeholder="{{item.name}}" formControlName="{{item.dist}}" required>
+        </mat-form-field>
+
+        <button mat-button mat-flat-button color="primary" class="m-3" type="submit">
+          <mat-icon>save</mat-icon>
+          Ingresar
+        </button>
+
+      </form>
+    </mat-tab>
+  </mat-tab-group>

@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td,
+th {
+    width: 25%;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background-color: #3F51B5;
+    color: #fff;
+    border-radius: 4px;
+    padding: 8px 16px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}

@@ -1,0 +1,33 @@
+<mat-toolbar color="primary">
+    <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/inicio">
+        Perfil
+    </button>
+    <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/productos">
+        Sistema
+    </button>
+    <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/pedidos" *ngIf="user()?.rol === 3">
+        Ingresar Vehiculo
+    </button>
+
+    <span class="spacer"></span>
+
+    <span class="mr-3 textName" [ngClass]="{'hide-on-small-screen': true}">{{user()?.email_user}}</span>
+
+    <button [ngClass]="{'hide-on-small-screen': true}" mat-button (click)="onLogout()">
+        Cerrar Sesion
+    </button>
+</mat-toolbar>
+
+<mat-toolbar [ngClass]="{'hide-on-big-screen': true}" color="primary">
+
+    <span class="mr-3 textName">{{user()?.email_user}}</span>
+
+    <span class="spacer"></span>
+
+    <button mat-button (click)="onLogout()">
+        Cerrar Sesion
+    </button>
+
+</mat-toolbar>
+
+<router-outlet></router-outlet>

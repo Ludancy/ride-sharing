@@ -1,0 +1,30 @@
+<div class="m-2">
+    <h2>Perfil</h2>
+    <div class="flex flex-row border-radius p-2">
+      <mat-icon  class="icon-size">account_circle</mat-icon>
+      <div class="ml-2 flex-col-8 align-self-center p-2">
+          <p>Nombre: {{user.nombre | titlecase }} {{user.apellido | titlecase}}</p>
+          <p>Cl: {{user.cedula}}</p>
+          <p>Gmail: {{user.email_user}}</p>
+          <p>Rol: {{user.role_nombre}}</p>
+          <p>Saldo: {{user.saldo}}</p>
+          <p>Fecha de Nacimiento: {{user.fechaNacimiento}}</p>
+      </div>
+      <div class="flex flex-col-2 justify-content-end">
+        <button mat-button mat-flat-button color="primary" (click)="openModalAgregarSaldo()">+ Agregar Saldo</button>
+      </div>
+    </div>
+    <div class="border-radius mt-2">
+      <div class="flex justify-content-between px-2 mt-2">
+        <h2 class="mb-0">Translados</h2>
+      </div>
+      <div class="p-2">
+        <app-table
+          [keys]="keys"
+          [displayedColumns]="displayedColumns" 
+          [data]="data"
+        >
+        </app-table>
+      </div>
+    </div>
+</div>

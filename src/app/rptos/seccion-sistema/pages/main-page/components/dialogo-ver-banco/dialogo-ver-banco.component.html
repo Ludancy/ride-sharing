@@ -1,0 +1,42 @@
+<div mat-dialog-content>
+    <mat-tab-group>
+        <mat-tab label="Cuentas del chofer">
+          <mat-list role="list">
+            <mat-list-item role="listitem" *ngFor="let cuenta of cuentasBancaria">{{cuenta.idBanco}} -- {{cuenta.nroCuenta}}</mat-list-item>
+          </mat-list>
+        </mat-tab>
+
+        <!-- Agregar Entidad bancaria -->
+        <mat-tab label="Agregar una entidad bancaria">
+            <form class="flex flex-column" [formGroup]="bancoFormulario" (ngSubmit)="guardarEntidadBancaria()">
+  
+                <mat-form-field class="m-1">
+                    <mat-label>Bancos</mat-label>
+                    <mat-select formControlName="idBanco">
+                      <mat-option *ngFor="let banco of bancos" [value]="banco.id"> {{ banco.nombre }} </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="m-1">
+                  <mat-label>Numero de Cuenta</mat-label>
+                  <input type="text" matInput placeholder="Numero de Cuenta" formControlName="nroCuenta" required>
+                </mat-form-field>
+            
+                <div class="flex">
+                  <button mat-button mat-flat-button color="primary" class="m-3" type="submit">
+                    <mat-icon>save</mat-icon>
+                    Ingresar
+                  </button>
+            
+                  <span class="spacer"></span>
+            
+                  <button class="m-3 pl-4 pr-4" mat-button mat-flat-button color="warn" mat-dialog-close="true">
+                    <mat-icon>close</mat-icon>
+                    Cerrar
+                  </button>
+                </div>
+            
+              </form>
+        </mat-tab>
+    </mat-tab-group>
+</div>

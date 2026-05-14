@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Recargar Saldo</h2>
+<mat-dialog-content>
+  <form [formGroup]="saldoForm" class="flex flex-col">
+    <!-- Campo de fecha -->
+    <mat-form-field class="">
+        <input matInput [matDatepicker]="picker" placeholder="Fecha Recarga" formControlName="fechaRecarga">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Campo de referencia -->
+    <mat-form-field class="">
+        <mat-label>Banco</mat-label>
+        <mat-select formControlName="idBanco">
+            <mat-option *ngFor="let banco of bancos" [value]="banco.id">{{banco.nombre}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Campo de monto -->
+    <mat-form-field class="">
+        <input matInput placeholder="Referencia" formControlName="referencia">
+    </mat-form-field>
+
+    <!-- Campo de monto -->
+    <mat-form-field class="">
+        <input matInput placeholder="Monto" formControlName="monto">
+    </mat-form-field>
+
+    <mat-dialog-actions class="flex junstify-content-end">
+      <button mat-button type="button" mat-dialog-close>Cancelar</button>
+      <button mat-button type="submit" mat-button mat-flat-button color="primary" (click)="recargarSaldo()">
+        Recargar
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

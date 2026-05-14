@@ -1,0 +1,67 @@
+<div class="table-container flex">
+  <table mat-table [dataSource]="dataSource" matSort matSortStart="asc" class="w-100" *ngIf="data.length !== 0">
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns; let i = index">
+        <!-- Headers -->
+        <th class="px-2" mat-header-cell *matHeaderCellDef mat-sort-header>
+          <span> {{ column }} </span>
+        </th>
+        <!-- Content -->
+        <td class="px-2" *matCellDef="let element; let indexElement = index">
+            <!-- Index -->
+            <span  style="font-size: 12px;" *ngIf='column == "Indice"'
+            >{{indexElement + 1}}
+            </span>
+            <!-- Values -->
+            <span style="font-size: 12px;" *ngIf='(column |lowercase) != "acciones" && (column |lowercase) != "Indice"'>
+              {{element[keys[i]]}}
+            </span>
+            <!-- Actions  -->
+            <span *ngIf='(column |lowercase) == "acciones"' >
+                <button 
+                *ngIf="configActions?.view"
+                mat-icon-button 
+                matTooltip="Detail" 
+                aria-label="Detail"
+                matTooltipPosition="above"
+                (click)="previewData(indexElement)">
+                <mat-icon>visibility</mat-icon>
+                </button>
+
+                <a 
+                *ngIf="configActions?.edit"
+                mat-icon-button 
+                matTooltip="Edit" 
+                aria-label="Edit"
+                matTooltipPosition="above"
+                (click)="editData(indexElement)"
+                >
+                <mat-icon>edit</mat-icon>
+                </a>
+
+                <button 
+                *ngIf="configActions?.history"
+                mat-icon-button 
+                matTooltip="Detail" 
+                aria-label="Detail"
+                matTooltipPosition="above"
+                >
+                <mat-icon>assignment</mat-icon>
+                </button>
+
+                <button
+                *ngIf="configActions?.delete"
+                mat-icon-button 
+                matTooltip="Delete"
+                aria-label="Delete"
+                matTooltipPosition="above"
+                (click)="deleteData(indexElement)"
+                >
+                <mat-icon>delete</mat-icon>
+                </button>
+            </span>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

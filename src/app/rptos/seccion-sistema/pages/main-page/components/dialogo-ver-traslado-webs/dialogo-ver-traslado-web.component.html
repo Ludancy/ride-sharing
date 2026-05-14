@@ -1,0 +1,22 @@
+<div mat-dialog-content>
+    <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-subtitle>Dato del traslado:</mat-card-subtitle>
+          <mat-card-title>Nombre Chofer: {{nombreChofer}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Placa: {{placa}}</p>
+          <p>Color: {{color}}</p>
+          <p>Marca: {{marca}}</p>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>{{origen}}</button>
+          <p> ==>></p>
+          <button mat-button>{{destino}}</button>
+        </mat-card-actions>
+        <mat-card-footer>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card-footer>
+      </mat-card>
+</div>

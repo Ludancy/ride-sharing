@@ -1,0 +1,49 @@
+<div class="flex flex-column">
+    <mat-card class="shadow-8">
+        <mat-card-header class="justify-content-center">
+            <mat-card-title>Registro</mat-card-title>
+        </mat-card-header>
+
+            <form class="flex flex-column" [formGroup]="registroFormulario" (ngSubmit)="registro()">
+
+                <mat-form-field class="m-3">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input type="text" matInput placeholder="Correo Electronico" formControlName="correo" required>
+                </mat-form-field>
+            
+                <mat-form-field class="ml-3 mr-3 mb-1">
+                    <mat-label>Contraseña</mat-label>
+                    <input type="password" matInput placeholder="Contraseña" formControlName="password" required>
+                </mat-form-field>
+
+                <mat-form-field class="ml-3 mr-3 mb-1">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" matInput placeholder="nombre" formControlName="nombre" required>
+                </mat-form-field>
+
+                <mat-form-field class="ml-3 mr-3 mb-1">
+                    <mat-label>Apellido</mat-label>
+                    <input type="text" matInput placeholder="apellido" formControlName="apellido" required>
+                </mat-form-field>
+
+                <mat-form-field class="ml-3 mr-3 mb-1">
+                    <mat-label>Cedula</mat-label>
+                    <input type="text" matInput placeholder="cedula" formControlName="cedula" required>
+                </mat-form-field>
+
+                <mat-form-field class="ml-3 mr-3 mb-1">
+                    <mat-label>¿Que desea ser usted?</mat-label>
+                    <mat-select formControlName="idRol">
+                      <mat-option *ngFor="let rol of roles" [value]="rol.id"> {{ rol.nombre }} </mat-option>
+                    </mat-select>
+                </mat-form-field>
+    
+                <button mat-button mat-flat-button color="primary" class="m-3"
+                    type="submit">
+                    <mat-icon>save</mat-icon>
+                    Registrarse
+                </button> 
+
+            </form>
+    </mat-card>
+</div>

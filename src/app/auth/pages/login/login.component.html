@@ -1,0 +1,33 @@
+<div class="flex flex-column">
+    <mat-card class="shadow-8">
+        <mat-card-header class="justify-content-center">
+            <div class="column">
+                <img src="assets/logo.png" alt="Mi Imagen" width="50">
+                <mat-card-title>Login</mat-card-title>
+            </div>
+        </mat-card-header>
+
+            <form class="flex flex-column" [formGroup]="authFormulario" (ngSubmit)="login()">
+
+                <mat-form-field class="m-3">
+                    <mat-label>Usuario</mat-label>
+                    <input type="text" matInput placeholder="Correo Electronico" formControlName="email_user" required>
+                </mat-form-field>
+            
+                <mat-form-field class="m-3">
+                    <mat-label>Contraseña</mat-label>
+                    <input type="password" matInput placeholder="Contraseña" formControlName="password" required>
+                </mat-form-field>
+    
+                <button mat-button mat-flat-button color="primary" class="m-3 ml-3 mr-3"
+                    type="submit">
+                    <mat-icon>save</mat-icon>
+                    Ingresar
+                </button> 
+
+                <button mat-button color="primary" class="mb-3" routerLink="/auth/registro">
+                    Registrarse
+                </button> 
+            </form>
+    </mat-card>
+</div>

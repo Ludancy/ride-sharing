@@ -1,0 +1,18 @@
+<div class="file-upload mt-3" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+    <label for="fileInput" class="file-upload-label">
+        <span>{{(label.length === 0 ? 'Seleccione la(s) foto(s) del comprobante del pago' : label)}}</span>
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" multiple>
+    </label>
+    <button mat-raised-button color="primary" (click)="uploadImagenesComprobante()">Subir imágenes</button>
+    <!-- Botón para limpiar los archivos cargados -->
+    <button mat-raised-button color="primary" class="ml-3" *ngIf="selectedFiles.length > 0"
+        (click)="clearSelectedFiles()">Limpiar archivos</button>
+
+    <!-- Agregar el mensaje de archivos cargados -->
+    <div *ngIf="selectedFiles.length > 0" class="file-list">
+        <p>Archivos cargados:</p>
+        <ul>
+            <li *ngFor="let file of selectedFiles">{{ file.name }}</li>
+        </ul>
+    </div>
+</div>

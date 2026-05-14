@@ -1,0 +1,17 @@
+<!-- <h1 mat-dialog-title>Notas de: {{data.nota}}</h1> -->
+<div mat-dialog-content>
+  <h2 *ngIf="tipo === 1">Evaluacion Psicologica del chofer</h2>
+  <h2 *ngIf="tipo === 2">Evaluacion del Vehiculo</h2>
+  
+  <div class="flex flex-column">
+      <mat-form-field>
+          <mat-label *ngIf="tipo === 1">Evaluacion Chofer</mat-label>
+          <mat-label *ngIf="tipo === 2">Evaluacion Vehiculo</mat-label>
+          <input  matInput #txtTagInput>
+      </mat-form-field>
+      <button *ngIf="tipo === 1 && user()?.rol === 1" mat-button color="primary" (click)="EvaluarChofer()">Evaluar</button>
+      <button *ngIf="tipo === 2 && user()?.rol === 1" mat-button color="primary" (click)="EvaluarVehiculo()">Evaluar</button>
+  </div>
+
+  <mat-divider></mat-divider>
+</div>

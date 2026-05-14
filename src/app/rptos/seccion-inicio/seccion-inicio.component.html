@@ -1,0 +1,3 @@
+<app-chofer *ngIf="(user.role_nombre | lowercase) === 'chofer'"></app-chofer>
+<app-client *ngIf="(user.role_nombre | lowercase) === 'cliente'"></app-client>
+<app-admin *ngIf="(user.role_nombre | lowercase) === 'personaladmin'"></app-admin>

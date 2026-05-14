@@ -1,0 +1,35 @@
+<!-- <div class="flex">
+    <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+    <app-body class="col" [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-body>
+</div> -->
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="push" [ngStyle]="{width: '250px'}">
+        <mat-toolbar>
+            <span><strong>STAGING</strong></span>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+        </mat-toolbar>
+
+        <mat-nav-list>
+            <mat-list-item *ngFor="let item of navbarData" [routerLink]="item.url" (click)="sidenav.toggle()">
+                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                <strong>{{item.label}}</strong>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <div class="mat-elevation-z8">
+        <mat-toolbar color="primary">
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+    
+            <span class="spacer"></span>
+        </mat-toolbar>
+    </div>
+
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+
+</mat-sidenav-container>

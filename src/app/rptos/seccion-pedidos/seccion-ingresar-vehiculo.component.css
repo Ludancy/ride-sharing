@@ -1,0 +1,47 @@
+table {
+  width: 100%;
+}
+
+.file-upload {
+    display: inline-block;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .file-upload-label {
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+  }
+  
+  .file-upload-label span {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Ocultar el input[type="file"] */
+  input[type="file"] {
+    display: none;
+  }
+
+
+
+  .demo-table {
+    width: 100%;
+  }
+  
+  .mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+  }

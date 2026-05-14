@@ -1,0 +1,157 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+/* Clases para flexbox */
+.flex{
+    display: flex !important;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center !important;
+}
+
+.junstify-content-end{
+    justify-content: end !important;
+}
+
+/* Clases para márgenes */
+.m-1 {
+    margin: 1rem;
+}
+
+.m-2 {
+    margin: 2rem;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.mb-0{
+    margin-bottom: 0rem;
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.mb-2 {
+    margin-bottom: 2rem;
+}
+
+.ml-1 {
+    margin-left: 1rem;
+}
+
+.ml-2 {
+    margin-left: 2rem;
+}
+
+/* Clases para padding */
+.p-1 {
+    padding: 1rem;
+}
+
+.p-2 {
+    padding: 2rem;
+}
+
+.pt-1 {
+    padding-top: 1rem;
+}
+
+.pt-2 {
+    padding-top: 2rem;
+}
+
+.pb-1 {
+    padding-bottom: 1rem;
+}
+
+.pb-2 {
+    padding-bottom: 2rem;
+}
+
+.pl-1 {
+    padding-left: 1rem;
+}
+
+.pl-2 {
+    padding-left: 2rem;
+}
+
+.w-80{
+    width: 80%;
+}
+
+.w-100{
+    width: 100%;
+}
+
+.align-self-center{
+    align-self: center;
+}
+
+.junstify-content-end {
+    justify-content: end;
+}
+
+.junstify-content-beteween{
+    justify-content: space-between;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col-1 {
+    flex: 1 1 10%;
+    max-width: 10%;
+}
+
+.flex-col-2 {
+    flex: 1 1 20%;
+    max-width: 20%;
+}
+
+.flex-col-3 {
+    flex: 1 1 30%;
+    max-width: 30%;
+}
+
+.flex-col-4 {
+    flex: 1 1 40%;
+    max-width: 40%;
+}
+
+.flex-col-7 {
+    flex: 1 1 70%;
+    max-width: 70%;
+}
+
+.flex-col-8 {
+    flex: 1 1 80%;
+    max-width: 80%;
+}
