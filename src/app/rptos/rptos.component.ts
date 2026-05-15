@@ -6,27 +6,7 @@ import { Usuario } from '../auth/interfaces';
 @Component({
   selector: 'app-rptos',
   templateUrl: './rptos.component.html',
-  styles: [
-    `
-    @media (min-width: 500px) {
-        .hide-on-big-screen {
-          display: none;
-        }
-      }
-
-      @media (max-width: 750px) {
-        .textName {
-          font-size: 50%;
-        }
-      }
-
-      @media (max-width: 500px) {
-        .hide-on-small-screen {
-          display: none;
-        }
-      }
-    `
-  ]
+  styleUrls: ['./rptos.component.css']
 })
 export class RptosComponent {
 

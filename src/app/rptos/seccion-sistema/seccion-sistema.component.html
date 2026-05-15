@@ -1,34 +1,3 @@
-<mat-sidenav-container class="sistema-container">
-    <mat-sidenav #sidenav mode="push" [ngStyle]="{width: '260px'}" class="modern-sidenav">
-        <mat-toolbar class="sidenav-header" style="background: transparent; box-shadow: none;">
-            <mat-icon color="primary" class="mr-2">admin_panel_settings</mat-icon>
-            <span style="color: var(--primary-color);"><strong>STAGING</strong></span>
-            <span class="spacer"></span>
-            <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>close</mat-icon></button>
-        </mat-toolbar>
-
-        <mat-divider></mat-divider>
-
-        <mat-nav-list class="mt-2">
-            <mat-list-item *ngFor="let item of navbarData" [routerLink]="item.url" (click)="sidenav.toggle()" routerLinkActive="active-nav-item">
-                <mat-icon matListItemIcon color="primary">{{item.icon}}</mat-icon>
-                <strong style="color: var(--text-main);">{{item.label}}</strong>
-            </mat-list-item>
-        </mat-nav-list>
-    </mat-sidenav>
-
-    <div class="header-elevation">
-        <mat-toolbar class="glass-toolbar">
-            <button mat-icon-button (click)="sidenav.toggle()" color="primary">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <span class="ml-2" style="font-weight: 500;">Panel de Control</span>
-            <span class="spacer"></span>
-        </mat-toolbar>
-    </div>
-
-    <div class="container p-4" style="background-color: var(--bg-color); min-height: calc(100vh - 64px);">
-        <router-outlet></router-outlet>
-    </div>
-
-</mat-sidenav-container>
+<div class="sistema-container">
+    <router-outlet></router-outlet>
+</div>
