@@ -170,3 +170,95 @@ body {
 .flex-col-4 { flex: 1 1 40%; max-width: 40%; }
 .flex-col-7 { flex: 1 1 70%; max-width: 70%; }
 .flex-col-8 { flex: 1 1 80%; max-width: 80%; }
+
+/* --- GLOBAL PREMIUM TABLE STYLES --- */
+.mat-mdc-table {
+    background: transparent !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.mat-mdc-header-row {
+    background: rgba(248, 250, 252, 0.5) !important;
+}
+
+.mat-mdc-header-cell {
+    color: var(--text-muted) !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border-bottom: 1px solid var(--border-light) !important;
+    padding: 16px 24px !important;
+}
+
+.mat-mdc-row {
+    transition: background-color 0.2s ease, transform 0.2s ease !important;
+}
+
+.mat-mdc-row:hover {
+    background-color: #ffffff !important;
+    transform: scale(1.001);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    border-radius: 8px;
+    z-index: 10;
+    position: relative;
+}
+
+.mat-mdc-cell {
+    color: var(--text-main) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
+    padding: 16px 24px !important;
+}
+
+/* Redondear la tabla completa si está dentro de una tarjeta */
+.table-card .mat-mdc-table {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Table Text Formatters */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.status-badge.completado, .status-badge.aprobado {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-badge.cancelado, .status-badge.rechazado {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status-badge.en_curso, .status-badge.activo {
+    background-color: #cce5ff;
+    color: #004085;
+    border: 1px solid #b8daff;
+}
+
+.long-text-cell {
+    display: inline-block;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    vertical-align: middle;
+}

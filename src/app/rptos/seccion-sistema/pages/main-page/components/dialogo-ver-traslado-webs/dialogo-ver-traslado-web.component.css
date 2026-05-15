@@ -1,0 +1,185 @@
+.ride-dialog-container {
+    padding: 24px;
+    font-family: 'Inter', sans-serif;
+    max-width: 400px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+}
+
+.dialog-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.success-icon-wrapper {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+}
+
+.success-icon {
+    color: #4caf50;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+}
+
+.dialog-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 4px;
+    letter-spacing: -0.5px;
+}
+
+.dialog-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.ride-card {
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    margin-bottom: 24px;
+}
+
+.driver-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.driver-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--bg-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    color: var(--primary-color);
+}
+
+.driver-details {
+    flex: 1;
+}
+
+.driver-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 4px;
+}
+
+.car-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.car-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    color: var(--primary-color);
+}
+
+.route-section {
+    padding-top: 20px;
+    position: relative;
+}
+
+.route-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.route-item:last-child {
+    margin-bottom: 0;
+}
+
+.route-node {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 4px;
+    margin-right: 16px;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.origin-node {
+    background-color: #4caf50;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2);
+}
+
+.dest-node {
+    background-color: #f44336;
+    box-shadow: 0 0 0 4px rgba(244, 67, 54, 0.2);
+}
+
+.route-line {
+    position: absolute;
+    left: 5px;
+    top: 28px;
+    bottom: 28px;
+    width: 2px;
+    background-color: var(--border-light);
+    z-index: 1;
+}
+
+.route-text {
+    flex: 1;
+}
+
+.route-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.route-address {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.dialog-footer {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.custom-progress {
+    height: 6px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+}
+
+.waiting-text {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin: 0;
+}

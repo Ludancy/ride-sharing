@@ -1,32 +1,34 @@
-<mat-toolbar class="glass-toolbar">
+<mat-toolbar color="primary" style="box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10;">
     <div class="flex items-center w-100">
         <!-- Logo or App Name -->
         <div class="flex items-center mr-3">
-            <img src="assets/logo.png" alt="Logo" width="40" style="border-radius: 50%; margin-right: 10px;">
-            <strong style="color: var(--primary-color); font-size: 1.2rem;" [ngClass]="{'hide-on-small-screen': true}">Llanito Express</strong>
+            <div style="background: white; border-radius: 50%; padding: 4px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <img src="assets/logo.png" alt="Logo" width="32" style="border-radius: 50%;">
+            </div>
+            <strong style="color: white; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px;" [ngClass]="{'hide-on-small-screen': true}">Llanito Express</strong>
         </div>
 
-        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/inicio">
+        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/inicio" style="color: rgba(255,255,255,0.9); border-radius: 12px;">
             <mat-icon>person</mat-icon>
             <span [ngClass]="{'hide-on-small-screen': true}"> Perfil</span>
         </button>
-        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/productos">
+        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/productos" style="color: rgba(255,255,255,0.9); border-radius: 12px;">
             <mat-icon>dashboard</mat-icon>
             <span [ngClass]="{'hide-on-small-screen': true}"> Sistema</span>
         </button>
-        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/pedidos" *ngIf="user()?.rol === 3">
+        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/pedidos" *ngIf="user()?.rol === 3" style="color: rgba(255,255,255,0.9); border-radius: 12px;">
             <mat-icon>directions_car</mat-icon>
-            <span [ngClass]="{'hide-on-small-screen': true}"> Ingresar Vehículo</span>
+            <span [ngClass]="{'hide-on-small-screen': true}"> Vehículos</span>
         </button>
 
         <span class="spacer"></span>
 
         <!-- User Info -->
         <div class="flex items-center">
-            <mat-icon color="primary" class="mr-1">account_circle</mat-icon>
-            <span class="mr-3 textName" style="font-weight: 500; color: var(--text-main);">{{user()?.email_user}}</span>
+            <mat-icon style="color: rgba(255,255,255,0.9);" class="mr-1">account_circle</mat-icon>
+            <span class="mr-3 textName" style="font-weight: 500; color: white;">{{user()?.email_user}}</span>
 
-            <button mat-flat-button color="warn" style="border-radius: 20px; padding: 0 20px;" (click)="onLogout()">
+            <button mat-flat-button color="accent" style="border-radius: 16px; font-weight: 600; padding: 0 20px; color: white;" (click)="onLogout()">
                 <mat-icon>exit_to_app</mat-icon>
                 <span [ngClass]="{'hide-on-small-screen': true}"> Cerrar Sesión</span>
             </button>

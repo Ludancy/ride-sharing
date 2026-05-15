@@ -11,10 +11,33 @@
             <span  style="font-size: 12px;" *ngIf='column == "Indice"'
             >{{indexElement + 1}}
             </span>
-            <!-- Values -->
-            <span style="font-size: 12px;" *ngIf='(column |lowercase) != "acciones" && (column |lowercase) != "Indice"'>
-              {{element[keys[i]]}}
-            </span>
+            <!-- Values con Formato Dinámico -->
+            <ng-container *ngIf='(column |lowercase) != "acciones" && (column |lowercase) != "indice"'>
+              
+              <!-- Estado -->
+              <span *ngIf="(column | lowercase) === 'estado'" class="status-badge" [ngClass]="element[keys[i]] | lowercase">
+                {{element[keys[i]] | titlecase}}
+              </span>
+
+              <!-- Costo / Precio / Saldo -->
+              <span *ngIf="(column | lowercase) === 'costo' || (column | lowercase) === 'precio' || (column | lowercase) === 'saldo'" style="font-weight: 600; color: #4caf50;">
+                ${{element[keys[i]]}}
+              </span>
+
+              <!-- Textos largos (Origen / Destino) -->
+              <span *ngIf="(column | lowercase) === 'origen' || (column | lowercase) === 'destino'" class="long-text-cell">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle; margin-right: 4px; color: var(--text-muted);">
+                  {{ (column | lowercase) === 'origen' ? 'my_location' : 'location_on' }}
+                </mat-icon>
+                {{element[keys[i]]}}
+              </span>
+
+              <!-- Textos Normales (Resto) -->
+              <span *ngIf="(column | lowercase) !== 'estado' && (column | lowercase) !== 'costo' && (column | lowercase) !== 'precio' && (column | lowercase) !== 'saldo' && (column | lowercase) !== 'origen' && (column | lowercase) !== 'destino'" style="font-size: 13px; font-weight: 500;">
+                {{element[keys[i]]}}
+              </span>
+
+            </ng-container>
             <!-- Actions  -->
             <span *ngIf='(column |lowercase) == "acciones"' >
                 <button 

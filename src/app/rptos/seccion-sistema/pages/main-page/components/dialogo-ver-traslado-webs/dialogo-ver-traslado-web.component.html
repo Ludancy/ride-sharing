@@ -1,22 +1,53 @@
-<div mat-dialog-content>
-    <mat-card class="example-card">
-        <mat-card-header>
-          <mat-card-subtitle>Dato del traslado:</mat-card-subtitle>
-          <mat-card-title>Nombre Chofer: {{nombreChofer}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Placa: {{placa}}</p>
-          <p>Color: {{color}}</p>
-          <p>Marca: {{marca}}</p>
-          <mat-divider></mat-divider>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>{{origen}}</button>
-          <p> ==>></p>
-          <button mat-button>{{destino}}</button>
-        </mat-card-actions>
-        <mat-card-footer>
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </mat-card-footer>
-      </mat-card>
+<div class="ride-dialog-container">
+    <div class="dialog-header">
+        <div class="success-icon-wrapper">
+            <mat-icon class="success-icon">check_circle</mat-icon>
+        </div>
+        <h2 class="dialog-title">¡Viaje Solicitado!</h2>
+        <p class="dialog-subtitle">Tu conductor está en camino</p>
+    </div>
+
+    <mat-card class="ride-card glass-card">
+        <!-- Conductor Info -->
+        <div class="driver-section">
+            <div class="driver-avatar">
+                <mat-icon>person</mat-icon>
+            </div>
+            <div class="driver-details">
+                <h3 class="driver-name">{{nombreChofer || 'Conductor Asignado'}}</h3>
+                <div class="car-badge">
+                    <mat-icon class="car-icon">directions_car</mat-icon>
+                    <span>{{marca}} • {{color}} • <strong>{{placa}}</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Ruta Info -->
+        <div class="route-section">
+            <div class="route-item">
+                <div class="route-node origin-node"></div>
+                <div class="route-text">
+                    <span class="route-label">Origen</span>
+                    <span class="route-address">{{origen}}</span>
+                </div>
+            </div>
+            
+            <div class="route-line"></div>
+
+            <div class="route-item">
+                <div class="route-node dest-node"></div>
+                <div class="route-text">
+                    <span class="route-label">Destino</span>
+                    <span class="route-address">{{destino}}</span>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+    <div class="dialog-footer">
+        <mat-progress-bar mode="indeterminate" color="primary" class="custom-progress"></mat-progress-bar>
+        <p class="waiting-text">Esperando llegada del conductor...</p>
+    </div>
 </div>

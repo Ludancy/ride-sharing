@@ -1,114 +1,96 @@
-<mat-tab-group *ngIf="this.user()?.rol === 1">
-  <mat-tab label="Lista choferes">
-    <mat-form-field class="mt-5">
-      <mat-label>Filtrar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Buscar choferes" #input>
-    </mat-form-field>
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" matSort>
+<div class="p-4 w-100" *ngIf="this.user()?.rol === 1">
+  <mat-card class="glass-card w-100">
+    <mat-card-header class="pt-2 pb-2">
+      <mat-card-title style="color: var(--primary-color);">Lista de Choferes</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <mat-form-field class="w-100 mt-2" appearance="outline">
+        <mat-label>Filtrar Choferes</mat-label>
+        <mat-icon matPrefix color="primary" style="opacity: 0.8;">search</mat-icon>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por nombre, cédula..." #input>
+      </mat-form-field>
 
-        <!-- <ng-container matColumnDef="checkbox">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()"
-              [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowSelect($event, row) : null"
-              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-            </mat-checkbox>
-          </td>
-        </ng-container> -->
+      <div style="overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-light);">
+        <table mat-table [dataSource]="dataSource" matSort style="width: 100%;">
 
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-        </ng-container>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="nombre">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> nombre </th>
-          <td mat-cell *matCellDef="let row"> {{row.nombre}} </td>
-        </ng-container>
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+            <td mat-cell *matCellDef="let row"> {{row.nombre}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="apellido">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> apellido </th>
-          <td mat-cell *matCellDef="let row"> {{row.apellido}} </td>
-        </ng-container>
+          <ng-container matColumnDef="apellido">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+            <td mat-cell *matCellDef="let row"> {{row.apellido}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="cedula">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> cedula </th>
-          <td mat-cell *matCellDef="let row"> {{row.cedula}} </td>
-        </ng-container>
+          <ng-container matColumnDef="cedula">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cédula </th>
+            <td mat-cell *matCellDef="let row"> {{row.cedula}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="fecha">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> fecha nacimiento </th>
-          <td mat-cell *matCellDef="let row"> {{row.fecha_nacimiento}} </td>
-        </ng-container>
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Nacimiento </th>
+            <td mat-cell *matCellDef="let row"> {{row.fecha_nacimiento}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="carros">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehículos</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialogVehiculo(element)">
-              <mat-icon>directions_car</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="carros">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehículos</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="openDialogVehiculo(element)">
+                <mat-icon>directions_car</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="banco">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Bancos</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialogBanco(element)">
-              <mat-icon>account_balance</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="banco">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Bancos</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="openDialogBanco(element)">
+                <mat-icon>account_balance</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="evaluacion">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialogEvaluacionChofer(element)">
-              <mat-icon>note_alt</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="evaluacion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="openDialogEvaluacionChofer(element)">
+                <mat-icon>note_alt</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="emergencia">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Contacto Emergencia</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialogContactoEmergencia(element)">
-              <mat-icon>medical_services</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="emergencia">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Emergencia</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="openDialogContactoEmergencia(element)">
+                <mat-icon>medical_services</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-        <!-- Row shown when there is no matching data. -->
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-        </tr>
-      </table>
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+              No hay datos que coincidan con "{{input.value}}"
+            </td>
+          </tr>
+        </table>
+      </div>
 
-      <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10, 20, 30, 100]"
-        aria-label="Select page of users"></mat-paginator>
-    </div>
-
-    <!-- <div class="flex align-items-center flex-wrap m-3">
-      <button mat-raised-button color="primary" class="mr-3" (click)="saveSelectedRows()" [disabled]="!showButton">Subir productos a mercadolibre</button>
-
-      <button mat-raised-button color="warn" class="mr-3" *ngIf="this.user()?.email_user === 'smithrodriguez123@gmail.com'" (click)="deleteProductSelected()" [disabled]="!showButton">Eliminar producto</button>
-
-      <input *ngIf="this.user()?.rol == 6 || this.user()?.rol == 1" type="file" (change)="onFileSelected($event)">
-      <span class="spacer"></span>
-
-      <button *ngIf="this.user()?.rol == 6 || this.user()?.rol == 1" class="mt-3 mr-2" mat-raised-button color="primary"
-        (click)="onUpload()">Actualizar Lista Producto</button>
-
-      <button mat-raised-button color="primary" class="mt-3" (click)="downloadExcel()">Descargar Lista Producto</button>
-    </div> -->
-  </mat-tab>
-</mat-tab-group>
+      <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10, 20, 30, 100]" class="mt-2"></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
 
 
 
@@ -116,33 +98,68 @@
 
 
 <!-- Manejo de cliente -->
-<mat-tab-group class="m-4" *ngIf="this.user()?.rol === 2">
-  <mat-tab label="Viajes">
-    <form class="flex flex-column" [formGroup]="lugarFormulario" (ngSubmit)="guardarTraslado()">
+<div class="flex justify-center items-center w-100" *ngIf="this.user()?.rol === 2" style="min-height: calc(100vh - 64px); background-image: url('assets/map_bg.png'); background-size: cover; background-position: center; position: relative;">
+  <!-- Capa de superposición para que el formulario resalte más -->
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.8) 100%); z-index: 0;"></div>
+  
+  <mat-card class="glass-card w-100" style="max-width: 500px; padding: 2.5rem 2rem; border-radius: 28px; z-index: 1; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+    
+    <mat-card-header class="justify-center mb-4">
+      <div class="flex flex-col items-center">
+        <div style="background: var(--primary-color); border-radius: 50%; padding: 12px; margin-bottom: 12px; box-shadow: var(--shadow-primary);">
+          <mat-icon style="color: white; transform: scale(1.2);">directions_car</mat-icon>
+        </div>
+        <mat-card-title style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">¿A dónde vamos?</mat-card-title>
+        <mat-card-subtitle>Solicita tu viaje de forma segura</mat-card-subtitle>
+      </div>
+    </mat-card-header>
 
-      <mat-form-field class="ml-3 mr-3 mb-1">
-        <mat-label>Origen</mat-label>
-        <mat-select formControlName="origen">
-          <mat-option *ngFor="let lugar of lugares" [value]="lugar.id"> {{ lugar.nombre }} </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-card-content>
+      <form class="flex flex-col w-100" [formGroup]="lugarFormulario" (ngSubmit)="guardarTraslado()">
 
-      <mat-form-field class="ml-3 mr-3 mb-1">
-        <mat-label>Destino</mat-label>
-        <mat-select formControlName="destino">
-          <mat-option *ngFor="let lugar of lugares" [value]="lugar.id"> {{ lugar.nombre }} </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <div style="position: relative; margin-left: 10px;">
+          <!-- Línea vertical conectora -->
+          <div style="position: absolute; left: 16px; top: 40px; bottom: 40px; width: 2px; background-color: var(--border-light); z-index: 1;"></div>
 
+          <mat-form-field class="w-100 mb-3" appearance="outline">
+            <mat-label>Punto de Origen</mat-label>
+            <mat-icon matPrefix color="primary" style="opacity: 0.8; z-index: 2; background: white; border-radius: 50%;">my_location</mat-icon>
+            <input type="text" matInput formControlName="origen" [matAutocomplete]="autoOrigen" placeholder="Ej: Avenida Libertador, Caracas">
+            <mat-autocomplete #autoOrigen="matAutocomplete" [displayWith]="displayPlace">
+              <mat-option *ngFor="let place of origenResultados$ | async" [value]="place">
+                <div class="flex items-center">
+                  <mat-icon color="primary" class="mr-2" style="transform: scale(0.8);">place</mat-icon>
+                  <span style="font-size: 0.9rem; line-height: 1.2;">{{ place.display_name }}</span>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-      <button mat-button mat-flat-button color="primary" class="m-3" type="submit">
-        <mat-icon>airport_shuttle</mat-icon>
-        Pedir
-      </button>
+          <mat-form-field class="w-100 mb-2" appearance="outline">
+            <mat-label>Destino</mat-label>
+            <mat-icon matPrefix color="accent" style="opacity: 0.8; z-index: 2; background: white; border-radius: 50%;">location_on</mat-icon>
+            <input type="text" matInput formControlName="destino" [matAutocomplete]="autoDestino" placeholder="Ej: Plaza Altamira, Caracas">
+            <mat-autocomplete #autoDestino="matAutocomplete" [displayWith]="displayPlace">
+              <mat-option *ngFor="let place of destinoResultados$ | async" [value]="place">
+                <div class="flex items-center">
+                  <mat-icon color="accent" class="mr-2" style="transform: scale(0.8);">place</mat-icon>
+                  <span style="font-size: 0.9rem; line-height: 1.2;">{{ place.display_name }}</span>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
 
-    </form>
-  </mat-tab>
-</mat-tab-group>
+        <div class="flex justify-center mt-4">
+          <button mat-flat-button color="primary" class="w-100" style="padding: 26px 0; font-size: 1.15rem; font-weight: 600; border-radius: 16px; box-shadow: var(--shadow-primary);" type="submit">
+            Pedir Viaje
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
 
 
 
@@ -150,62 +167,64 @@
 <!-- Vista Chofer -->
 <!--  -->
 
-<mat-tab-group *ngIf="this.user()?.rol === 3">
-  <mat-tab label="Lista vehiculos">
+<div class="p-4 w-100" *ngIf="this.user()?.rol === 3">
+  <mat-card class="glass-card w-100">
+    <mat-card-header class="pt-2 pb-2">
+      <mat-card-title style="color: var(--primary-color);">Mis Vehículos</mat-card-title>
+    </mat-card-header>
 
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource2" matSort>
+    <mat-card-content class="pt-2">
+      <div style="overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-light);">
+        <table mat-table [dataSource]="dataSource2" matSort style="width: 100%;">
 
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-        </ng-container>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="marca">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> marca </th>
-          <td mat-cell *matCellDef="let row"> {{row.marca}} </td>
-        </ng-container>
+          <ng-container matColumnDef="marca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+            <td mat-cell *matCellDef="let row"> {{row.marca}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="color">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> color </th>
-          <td mat-cell *matCellDef="let row"> {{row.color}} </td>
-        </ng-container>
+          <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+            <td mat-cell *matCellDef="let row"> {{row.color}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="placa">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> placa </th>
-          <td mat-cell *matCellDef="let row"> {{row.placa}} </td>
-        </ng-container>
+          <ng-container matColumnDef="placa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Placa </th>
+            <td mat-cell *matCellDef="let row"> {{row.placa}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="fecha">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> fecha creación </th>
-          <td mat-cell *matCellDef="let row"> {{row.anio_fabricacion}} </td>
-        </ng-container>
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Fabricación </th>
+            <td mat-cell *matCellDef="let row"> {{row.anio_fabricacion}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="evaluacion">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialogEvaluacionVehiculo(element)">
-              <mat-icon>note_alt</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="evaluacion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Evaluación</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="openDialogEvaluacionVehiculo(element)">
+                <mat-icon>note_alt</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="emergencia">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Contacto Emergencia</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialogContactoEmergencia(element)">
-              <mat-icon>medical_services</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="emergencia">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Emergencia</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="openDialogContactoEmergencia(element)">
+                <mat-icon>medical_services</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
 
-      </table>
-
-    </div>
-
-  </mat-tab>
-
-</mat-tab-group>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

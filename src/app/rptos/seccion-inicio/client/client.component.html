@@ -1,30 +1,56 @@
-<div class="m-2">
-    <h2>Perfil</h2>
-    <div class="flex flex-row border-radius p-2">
-      <mat-icon  class="icon-size">account_circle</mat-icon>
-      <div class="ml-2 flex-col-8 align-self-center p-2">
-          <p>Nombre: {{user.nombre | titlecase }} {{user.apellido | titlecase}}</p>
-          <p>Cl: {{user.cedula}}</p>
-          <p>Gmail: {{user.email_user}}</p>
-          <p>Rol: {{user.role_nombre}}</p>
-          <p>Saldo: {{user.saldo}}</p>
-          <p>Fecha de Nacimiento: {{user.fechaNacimiento}}</p>
-      </div>
-      <div class="flex flex-col-2 justify-content-end">
-        <button mat-button mat-flat-button color="primary" (click)="openModalAgregarSaldo()">+ Agregar Saldo</button>
-      </div>
+<div class="profile-container p-4">
+    <!-- Encabezado y Tarjeta Principal -->
+    <div class="flex justify-content-between items-center mb-4">
+        <h2 class="section-title">Mi Perfil</h2>
     </div>
-    <div class="border-radius mt-2">
-      <div class="flex justify-content-between px-2 mt-2">
-        <h2 class="mb-0">Translados</h2>
-      </div>
-      <div class="p-2">
-        <app-table
-          [keys]="keys"
-          [displayedColumns]="displayedColumns" 
-          [data]="data"
-        >
-        </app-table>
-      </div>
-    </div>
+
+    <mat-card class="glass-card profile-card mb-5">
+        <div class="flex flex-column md:flex-row align-items-center w-full">
+            
+            <!-- Avatar -->
+            <div class="avatar-wrapper mb-3 md:mb-0" style="overflow: hidden; padding: 0;">
+                <img src="assets/avatar.png" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <!-- Datos Principales -->
+            <div class="user-main-info flex-1 px-4 text-center md:text-left">
+                <h1 class="user-name m-0">{{user.nombre | titlecase}} {{user.apellido | titlecase}}</h1>
+                <p class="user-email mt-1 mb-2">{{user.email_user}}</p>
+                <div class="flex flex-wrap justify-content-center md:justify-content-start gap-2 mt-3">
+                    <span class="info-badge role-badge">
+                        <mat-icon>verified_user</mat-icon> {{user.role_nombre}}
+                    </span>
+                    <span class="info-badge default-badge">
+                        <mat-icon>badge</mat-icon> CI: {{user.cedula}}
+                    </span>
+                    <span class="info-badge default-badge">
+                        <mat-icon>cake</mat-icon> Nacimiento: {{user.fechaNacimiento}}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Sección de Saldo -->
+            <div class="balance-section mt-4 md:mt-0 p-3 text-center md:text-right">
+                <p class="balance-label m-0">Saldo Disponible</p>
+                <h2 class="balance-amount m-0 mb-3" [class.negative]="user.saldo < 0">${{user.saldo}}</h2>
+                <button mat-flat-button color="primary" class="add-balance-btn" (click)="openModalAgregarSaldo()">
+                    <mat-icon>account_balance_wallet</mat-icon>
+                    <span class="ml-1">Agregar Saldo</span>
+                </button>
+            </div>
+
+        </div>
+    </mat-card>
+
+    <!-- Historial de Traslados -->
+    <h2 class="section-title mb-3">Historial de Traslados</h2>
+    <mat-card class="glass-card table-card p-0">
+        <div class="table-container">
+            <app-table
+                [keys]="keys"
+                [displayedColumns]="displayedColumns" 
+                [data]="data">
+            </app-table>
+        </div>
+    </mat-card>
 </div>
