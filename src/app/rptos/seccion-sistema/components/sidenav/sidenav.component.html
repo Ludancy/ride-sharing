@@ -1,3 +1,7 @@
+<button class="mobile-menu-toggle" (click)="toggleMobileMenu()" *ngIf="!collapsed">
+    <mat-icon>menu</mat-icon>
+</button>
+
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : '' ">
     <div class="logo-container">
         <button class="logo" (click)="toggleCollapse()">S</button>
@@ -11,8 +15,8 @@
 
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData">
-            <a class="sidenav-nav-link" [routerLink]="[data.routerLink]">
-                <mat-icon  class="ml-3">{{data.icon}}</mat-icon>
+            <a class="sidenav-nav-link" [routerLink]="[data.routerLink]" (click)="closeMobileMenu()">
+                <mat-icon class="ml-3">{{data.icon}}</mat-icon>
                 <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
             </a>
         </li>

@@ -19,3 +19,30 @@ body{
     width: calc(100% - 5rem);
     margin-left: 5rem;
 }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    body {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding: 1rem !important;
+        padding-top: 4rem !important; /* Space for mobile menu toggle */
+    }
+    
+    .body-trimmed {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+    
+    .body-md-screen {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.5rem !important;
+        padding-top: 3.5rem !important;
+    }
+}

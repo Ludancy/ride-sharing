@@ -2,6 +2,13 @@
     max-width: 1200px;
     margin: 0 auto;
     font-family: 'Inter', sans-serif;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 0.5rem;
+    }
 }
 
 .section-title {
@@ -12,9 +19,22 @@
     letter-spacing: -0.5px;
 }
 
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.25rem;
+    }
+}
+
 .profile-card {
     border-radius: 24px;
     padding: 32px 24px;
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
 }
 
 .avatar-wrapper {
@@ -29,11 +49,26 @@
     flex-shrink: 0;
 }
 
+@media (max-width: 768px) {
+    .avatar-wrapper {
+        width: 80px;
+        height: 80px;
+    }
+}
+
 .profile-avatar-icon {
     font-size: 56px;
     width: 56px;
     height: 56px;
     color: white;
+}
+
+@media (max-width: 768px) {
+    .profile-avatar-icon {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+    }
 }
 
 .user-name {
@@ -43,9 +78,21 @@
     letter-spacing: -0.5px;
 }
 
+@media (max-width: 768px) {
+    .user-name {
+        font-size: 1.4rem;
+    }
+}
+
 .user-email {
     font-size: 1rem;
     color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .user-email {
+        font-size: 0.9rem;
+    }
 }
 
 .info-badge {
@@ -57,11 +104,27 @@
     font-weight: 500;
 }
 
+@media (max-width: 768px) {
+    .info-badge {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+}
+
 .info-badge mat-icon {
     font-size: 16px;
     width: 16px;
     height: 16px;
     margin-right: 6px;
+}
+
+@media (max-width: 768px) {
+    .info-badge mat-icon {
+        font-size: 14px;
+        width: 14px;
+        height: 14px;
+        margin-right: 4px;
+    }
 }
 
 .role-badge {
@@ -86,6 +149,7 @@
         border-top: 2px dashed var(--border-light);
         width: 100%;
         padding-top: 20px !important;
+        min-width: auto;
     }
 }
 
@@ -97,11 +161,23 @@
     font-weight: 600;
 }
 
+@media (max-width: 768px) {
+    .balance-label {
+        font-size: 0.8rem;
+    }
+}
+
 .balance-amount {
     font-size: 2.5rem;
     font-weight: 800;
     color: #4caf50;
     letter-spacing: -1px;
+}
+
+@media (max-width: 768px) {
+    .balance-amount {
+        font-size: 2rem;
+    }
 }
 
 .balance-amount.negative {
@@ -115,11 +191,55 @@
     box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3);
 }
 
+@media (max-width: 768px) {
+    .add-contact-btn {
+        padding: 0 16px;
+        font-size: 0.9rem;
+    }
+    .add-contact-btn span {
+        display: none;
+    }
+    .add-contact-btn mat-icon {
+        margin-right: 0;
+    }
+}
+
 .table-card {
     border-radius: 24px;
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .table-card {
+        border-radius: 16px;
+    }
+}
+
 .table-container {
     overflow-x: auto;
+}
+
+/* Responsive table adjustments */
+@media (max-width: 600px) {
+    .flex.justify-content-between.items-center {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .flex.justify-content-between.items-center .add-contact-btn {
+        align-self: flex-end;
+    }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+    .user-main-info {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .flex.flex-wrap.justify-content-center.md\:justify-content-start {
+        justify-content: center !important;
+    }
 }

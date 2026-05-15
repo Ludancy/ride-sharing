@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, HostListener } from '@angular/core';
 
 const navbarData = [
   {
@@ -30,6 +30,27 @@ export class SidenavComponent {
   collapsed=false;
   screenWidth = 0;
   navData = navbarData;
+  isMobile = false;
+  
+  ngOnInit() {
+    this.checkScreenWidth();
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenWidth();
+  }
+  
+  checkScreenWidth() {
+    this.screenWidth = window.innerWidth;
+    this.isMobile = this.screenWidth <= 768;
+    
+    // Auto-close sidenav on mobile when screen is small
+    if (this.isMobile && this.collapsed) {
+      this.collapsed = false;
+      this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
+    }
+  }
   
   toggleCollapse():void {
     this.collapsed = !this.collapsed;
@@ -39,5 +60,19 @@ export class SidenavComponent {
   closeSidenav(): void{
     this.collapsed = false;
     this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
+  }
+  
+  toggleMobileMenu(): void {
+    if (this.isMobile) {
+      this.collapsed = !this.collapsed;
+      this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
+    }
+  }
+  
+  closeMobileMenu(): void {
+    if (this.isMobile && this.collapsed) {
+      this.collapsed = false;
+      this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
+    }
   }
 }

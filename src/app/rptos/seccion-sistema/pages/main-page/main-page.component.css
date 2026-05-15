@@ -7,9 +7,22 @@ table {
     width: 100%;
 }
 
+@media (max-width: 768px) {
+    .mat-mdc-form-field {
+        font-size: 12px;
+    }
+}
+
 td,
 th {
     width: 25%;
+}
+
+@media (max-width: 768px) {
+    td, th {
+        padding: 8px 4px !important;
+        font-size: 12px;
+    }
 }
 
 input[type="file"]::-webkit-file-upload-button {
@@ -20,4 +33,126 @@ input[type="file"]::-webkit-file-upload-button {
     border: none;
     font-size: 16px;
     cursor: pointer;
+}
+
+/* Responsive styles for main page */
+@media (max-width: 768px) {
+    .p-4 {
+        padding: 1rem !important;
+    }
+    
+    .glass-card {
+        border-radius: 16px !important;
+    }
+    
+    mat-card-title {
+        font-size: 1.25rem !important;
+    }
+    
+    /* Adjust table columns for mobile */
+    .mat-column-id {
+        display: none;
+    }
+    
+    .mat-column-fecha {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .p-4 {
+        padding: 0.5rem !important;
+    }
+    
+    /* Hide more columns on very small screens */
+    .mat-column-apellido {
+        display: none;
+    }
+    
+    /* Adjust button sizes */
+    button[mat-icon-button] {
+        width: 32px;
+        height: 32px;
+    }
+    
+    button[mat-icon-button] mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Client view responsive styles */
+@media (max-width: 768px) {
+    .flex.justify-center.items-center.w-100 {
+        padding: 1rem;
+    }
+    
+    .glass-card.w-100[style*="max-width: 500px"] {
+        max-width: 100% !important;
+        padding: 1.5rem 1rem !important;
+        border-radius: 20px !important;
+    }
+    
+    mat-card-title[style*="font-size: 1.5rem"] {
+        font-size: 1.25rem !important;
+    }
+    
+    button[style*="padding: 26px 0"] {
+        padding: 20px 0 !important;
+        font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .flex.justify-center.items-center.w-100 {
+        padding: 0.5rem;
+    }
+    
+    .glass-card.w-100[style*="max-width: 500px"] {
+        padding: 1rem 0.75rem !important;
+        border-radius: 16px !important;
+    }
+    
+    mat-card-title[style*="font-size: 1.5rem"] {
+        font-size: 1.1rem !important;
+    }
+    
+    mat-card-subtitle {
+        font-size: 0.9rem !important;
+    }
+    
+    button[style*="padding: 26px 0"] {
+        padding: 16px 0 !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Adjust form fields */
+    .mat-form-field {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Adjust vertical line */
+    div[style*="position: absolute; left: 16px; top: 40px; bottom: 40px"] {
+        left: 12px !important;
+        top: 30px !important;
+        bottom: 30px !important;
+    }
+}
+
+/* Driver view responsive styles */
+@media (max-width: 768px) {
+    .mat-column-id {
+        display: none;
+    }
+    
+    .mat-column-fecha {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .mat-column-color {
+        display: none;
+    }
 }
