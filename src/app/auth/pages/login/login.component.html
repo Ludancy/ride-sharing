@@ -1,33 +1,41 @@
-<div class="flex flex-column">
-    <mat-card class="shadow-8">
-        <mat-card-header class="justify-content-center">
-            <div class="column">
-                <img src="assets/logo.png" alt="Mi Imagen" width="50">
-                <mat-card-title>Login</mat-card-title>
+<div class="login-container">
+    <mat-card class="modern-auth-card">
+        <mat-card-header class="justify-center pt-2">
+            <div class="flex flex-col items-center">
+                <div class="logo-container">
+                    <img src="assets/logo.png" alt="Llanito Express Logo">
+                </div>
+                <mat-card-title class="auth-title">Bienvenido</mat-card-title>
+                <mat-card-subtitle class="auth-subtitle">Ingresa a tu cuenta para continuar</mat-card-subtitle>
             </div>
         </mat-card-header>
 
-            <form class="flex flex-column" [formGroup]="authFormulario" (ngSubmit)="login()">
+        <mat-card-content class="pt-4">
+            <form class="flex flex-col w-100" [formGroup]="authFormulario" (ngSubmit)="login()">
 
-                <mat-form-field class="m-3">
-                    <mat-label>Usuario</mat-label>
-                    <input type="text" matInput placeholder="Correo Electronico" formControlName="email_user" required>
+                <mat-form-field class="w-100 mb-3" appearance="outline">
+                    <mat-label>Correo Electrónico</mat-label>
+                    <mat-icon matPrefix color="primary" style="opacity: 0.8;">email</mat-icon>
+                    <input type="email" matInput placeholder="usuario@correo.com" formControlName="email_user" required>
                 </mat-form-field>
             
-                <mat-form-field class="m-3">
+                <mat-form-field class="w-100 mb-3" appearance="outline">
                     <mat-label>Contraseña</mat-label>
-                    <input type="password" matInput placeholder="Contraseña" formControlName="password" required>
+                    <mat-icon matPrefix color="primary" style="opacity: 0.8;">lock</mat-icon>
+                    <input type="password" matInput placeholder="Tu contraseña" formControlName="password" required>
                 </mat-form-field>
     
-                <button mat-button mat-flat-button color="primary" class="m-3 ml-3 mr-3"
-                    type="submit">
-                    <mat-icon>save</mat-icon>
-                    Ingresar
-                </button> 
+                <div class="flex flex-col items-center mt-4">
+                    <button mat-flat-button color="primary" class="w-100 auth-main-btn" type="submit">
+                        Ingresar
+                    </button> 
 
-                <button mat-button color="primary" class="mb-3" routerLink="/auth/registro">
-                    Registrarse
-                </button> 
+                    <a class="mt-4 text-sm auth-bottom-link" routerLink="/auth/registro">
+                        <span class="auth-text-gray">¿No tienes cuenta?</span> 
+                        <span class="auth-text-highlight">Regístrate aquí</span>
+                    </a> 
+                </div>
             </form>
+        </mat-card-content>
     </mat-card>
 </div>

@@ -1,34 +1,33 @@
-<!-- <div class="flex">
-    <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
-    <app-body class="col" [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-body>
-</div> -->
-<mat-sidenav-container>
-    <mat-sidenav #sidenav mode="push" [ngStyle]="{width: '250px'}">
-        <mat-toolbar>
-            <span><strong>STAGING</strong></span>
+<mat-sidenav-container class="sistema-container">
+    <mat-sidenav #sidenav mode="push" [ngStyle]="{width: '260px'}" class="modern-sidenav">
+        <mat-toolbar class="sidenav-header" style="background: transparent; box-shadow: none;">
+            <mat-icon color="primary" class="mr-2">admin_panel_settings</mat-icon>
+            <span style="color: var(--primary-color);"><strong>STAGING</strong></span>
             <span class="spacer"></span>
-            <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+            <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>close</mat-icon></button>
         </mat-toolbar>
 
-        <mat-nav-list>
-            <mat-list-item *ngFor="let item of navbarData" [routerLink]="item.url" (click)="sidenav.toggle()">
-                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-                <strong>{{item.label}}</strong>
+        <mat-divider></mat-divider>
+
+        <mat-nav-list class="mt-2">
+            <mat-list-item *ngFor="let item of navbarData" [routerLink]="item.url" (click)="sidenav.toggle()" routerLinkActive="active-nav-item">
+                <mat-icon matListItemIcon color="primary">{{item.icon}}</mat-icon>
+                <strong style="color: var(--text-main);">{{item.label}}</strong>
             </mat-list-item>
         </mat-nav-list>
     </mat-sidenav>
 
-    <div class="mat-elevation-z8">
-        <mat-toolbar color="primary">
-            <button mat-icon-button (click)="sidenav.toggle()">
+    <div class="header-elevation">
+        <mat-toolbar class="glass-toolbar">
+            <button mat-icon-button (click)="sidenav.toggle()" color="primary">
                 <mat-icon>menu</mat-icon>
             </button>
-    
+            <span class="ml-2" style="font-weight: 500;">Panel de Control</span>
             <span class="spacer"></span>
         </mat-toolbar>
     </div>
 
-    <div class="container">
+    <div class="container p-4" style="background-color: var(--bg-color); min-height: calc(100vh - 64px);">
         <router-outlet></router-outlet>
     </div>
 

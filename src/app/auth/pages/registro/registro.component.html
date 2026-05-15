@@ -1,49 +1,65 @@
-<div class="flex flex-column">
-    <mat-card class="shadow-8">
-        <mat-card-header class="justify-content-center">
-            <mat-card-title>Registro</mat-card-title>
+<div class="login-container">
+    <mat-card class="modern-auth-card" style="max-width: 500px;">
+        <mat-card-header class="justify-center pt-2 pb-2">
+            <div class="flex flex-col items-center">
+                <mat-card-title class="auth-title">Crear Cuenta</mat-card-title>
+                <mat-card-subtitle class="auth-subtitle">Únete a Llanito Express para continuar</mat-card-subtitle>
+            </div>
         </mat-card-header>
 
-            <form class="flex flex-column" [formGroup]="registroFormulario" (ngSubmit)="registro()">
+        <mat-card-content class="pt-4">
+            <form class="flex flex-col w-100" [formGroup]="registroFormulario" (ngSubmit)="registro()">
 
-                <mat-form-field class="m-3">
-                    <mat-label>Correo Electronico</mat-label>
-                    <input type="text" matInput placeholder="Correo Electronico" formControlName="correo" required>
+                <div class="flex flex-row flex-wrap" style="gap: 1.25rem;">
+                    <mat-form-field class="w-100 mb-2" style="flex: 1; min-width: 150px;" appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <mat-icon matPrefix color="primary" style="opacity: 0.8;">person</mat-icon>
+                        <input type="text" matInput placeholder="Tu nombre" formControlName="nombre" required>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100 mb-2" style="flex: 1; min-width: 150px;" appearance="outline">
+                        <mat-label>Apellido</mat-label>
+                        <input type="text" matInput placeholder="Tu apellido" formControlName="apellido" required>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field class="w-100 mb-2" appearance="outline">
+                    <mat-label>Cédula</mat-label>
+                    <mat-icon matPrefix color="primary" style="opacity: 0.8;">badge</mat-icon>
+                    <input type="text" matInput placeholder="V-12345678" formControlName="cedula" required>
+                </mat-form-field>
+
+                <mat-form-field class="w-100 mb-2" appearance="outline">
+                    <mat-label>Correo Electrónico</mat-label>
+                    <mat-icon matPrefix color="primary" style="opacity: 0.8;">email</mat-icon>
+                    <input type="email" matInput placeholder="usuario@correo.com" formControlName="correo" required>
                 </mat-form-field>
             
-                <mat-form-field class="ml-3 mr-3 mb-1">
+                <mat-form-field class="w-100 mb-2" appearance="outline">
                     <mat-label>Contraseña</mat-label>
-                    <input type="password" matInput placeholder="Contraseña" formControlName="password" required>
+                    <mat-icon matPrefix color="primary" style="opacity: 0.8;">lock</mat-icon>
+                    <input type="password" matInput placeholder="Crea una contraseña segura" formControlName="password" required>
                 </mat-form-field>
 
-                <mat-form-field class="ml-3 mr-3 mb-1">
-                    <mat-label>Nombre</mat-label>
-                    <input type="text" matInput placeholder="nombre" formControlName="nombre" required>
-                </mat-form-field>
-
-                <mat-form-field class="ml-3 mr-3 mb-1">
-                    <mat-label>Apellido</mat-label>
-                    <input type="text" matInput placeholder="apellido" formControlName="apellido" required>
-                </mat-form-field>
-
-                <mat-form-field class="ml-3 mr-3 mb-1">
-                    <mat-label>Cedula</mat-label>
-                    <input type="text" matInput placeholder="cedula" formControlName="cedula" required>
-                </mat-form-field>
-
-                <mat-form-field class="ml-3 mr-3 mb-1">
-                    <mat-label>¿Que desea ser usted?</mat-label>
+                <mat-form-field class="w-100 mb-2" appearance="outline">
+                    <mat-label>¿Qué deseas ser?</mat-label>
+                    <mat-icon matPrefix color="primary" style="opacity: 0.8;">work</mat-icon>
                     <mat-select formControlName="idRol">
                       <mat-option *ngFor="let rol of roles" [value]="rol.id"> {{ rol.nombre }} </mat-option>
                     </mat-select>
                 </mat-form-field>
     
-                <button mat-button mat-flat-button color="primary" class="m-3"
-                    type="submit">
-                    <mat-icon>save</mat-icon>
-                    Registrarse
-                </button> 
+                <div class="flex flex-col items-center mt-4">
+                    <button mat-flat-button color="primary" class="w-100 auth-main-btn" type="submit">
+                        Registrarse
+                    </button> 
 
+                    <a class="mt-4 text-sm auth-bottom-link" routerLink="/auth/login">
+                        <span class="auth-text-gray">¿Ya tienes cuenta?</span> 
+                        <span class="auth-text-highlight">Ingresa aquí</span>
+                    </a>
+                </div>
             </form>
+        </mat-card-content>
     </mat-card>
 </div>

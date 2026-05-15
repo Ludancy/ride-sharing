@@ -1,33 +1,37 @@
-<mat-toolbar color="primary">
-    <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/inicio">
-        Perfil
-    </button>
-    <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/productos">
-        Sistema
-    </button>
-    <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/pedidos" *ngIf="user()?.rol === 3">
-        Ingresar Vehiculo
-    </button>
+<mat-toolbar class="glass-toolbar">
+    <div class="flex items-center w-100">
+        <!-- Logo or App Name -->
+        <div class="flex items-center mr-3">
+            <img src="assets/logo.png" alt="Logo" width="40" style="border-radius: 50%; margin-right: 10px;">
+            <strong style="color: var(--primary-color); font-size: 1.2rem;" [ngClass]="{'hide-on-small-screen': true}">Llanito Express</strong>
+        </div>
 
-    <span class="spacer"></span>
+        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/inicio">
+            <mat-icon>person</mat-icon>
+            <span [ngClass]="{'hide-on-small-screen': true}"> Perfil</span>
+        </button>
+        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/productos">
+            <mat-icon>dashboard</mat-icon>
+            <span [ngClass]="{'hide-on-small-screen': true}"> Sistema</span>
+        </button>
+        <button class="m-1 pl-2 pr-2" mat-button routerLink="/rptos/pedidos" *ngIf="user()?.rol === 3">
+            <mat-icon>directions_car</mat-icon>
+            <span [ngClass]="{'hide-on-small-screen': true}"> Ingresar Vehículo</span>
+        </button>
 
-    <span class="mr-3 textName" [ngClass]="{'hide-on-small-screen': true}">{{user()?.email_user}}</span>
+        <span class="spacer"></span>
 
-    <button [ngClass]="{'hide-on-small-screen': true}" mat-button (click)="onLogout()">
-        Cerrar Sesion
-    </button>
-</mat-toolbar>
+        <!-- User Info -->
+        <div class="flex items-center">
+            <mat-icon color="primary" class="mr-1">account_circle</mat-icon>
+            <span class="mr-3 textName" style="font-weight: 500; color: var(--text-main);">{{user()?.email_user}}</span>
 
-<mat-toolbar [ngClass]="{'hide-on-big-screen': true}" color="primary">
-
-    <span class="mr-3 textName">{{user()?.email_user}}</span>
-
-    <span class="spacer"></span>
-
-    <button mat-button (click)="onLogout()">
-        Cerrar Sesion
-    </button>
-
+            <button mat-flat-button color="warn" style="border-radius: 20px; padding: 0 20px;" (click)="onLogout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span [ngClass]="{'hide-on-small-screen': true}"> Cerrar Sesión</span>
+            </button>
+        </div>
+    </div>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
