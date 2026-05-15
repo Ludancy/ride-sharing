@@ -1,11 +1,125 @@
-.icon-size{
-    font-size:12rem;
-    width: 20%;
-    height: 100%;
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.profile-card {
+    border-radius: 24px;
+    padding: 32px 24px;
+}
+
+.avatar-wrapper {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #3f51b5 0%, #303f9f 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
+    flex-shrink: 0;
+}
+
+.profile-avatar-icon {
+    font-size: 56px;
+    width: 56px;
+    height: 56px;
+    color: white;
+}
+
+.user-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+}
+
+.user-email {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.info-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.info-badge mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}
+
+.role-badge {
+    background-color: rgba(63, 81, 181, 0.1);
     color: #3f51b5;
 }
 
-.border-radius{
-    border: 1px solid #3f51b5;
-    border-radius: .2rem;
+.default-badge {
+    background-color: var(--bg-light);
+    color: var(--text-muted);
+    border: 1px solid var(--border-light);
+}
+
+.balance-section {
+    min-width: 200px;
+    border-left: 2px dashed var(--border-light);
+}
+
+@media (max-width: 768px) {
+    .balance-section {
+        border-left: none;
+        border-top: 2px dashed var(--border-light);
+        width: 100%;
+        padding-top: 20px !important;
+    }
+}
+
+.balance-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.balance-amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #4caf50;
+    letter-spacing: -1px;
+}
+
+.balance-amount.negative {
+    color: #f44336;
+}
+
+.add-contact-btn {
+    border-radius: 12px;
+    padding: 0 24px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3);
+}
+
+.table-card {
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.table-container {
+    overflow-x: auto;
 }

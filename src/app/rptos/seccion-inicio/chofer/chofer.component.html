@@ -1,32 +1,64 @@
-<div class="m-2">
-    <h2>Perfil</h2>
-    <div class="flex flex-row border-radius p-2">
-      <mat-icon  class="icon-size">account_circle</mat-icon>
-      <div class="ml-2 w-80 align-self-center p-2">
-          <p>Nombre: {{user.nombre | titlecase }} {{user.apellido | titlecase}}</p>
-          <p>Cl: {{user.cedula}}</p>
-          <p>Gmail: {{user.email_user}}</p>
-          <p>Rol: {{user.role_nombre}}</p>
-          <p>Saldo: {{user.saldo}}</p>
-          <p>Numero de Cuenta Bancaria Activa: {{user.nroCuenta === null ?  'No posee una cuenta activa' : this.user.nroCuenta}}</p>
-      </div>
+<div class="profile-container p-4">
+    <!-- Encabezado y Tarjeta Principal -->
+    <div class="flex justify-content-between items-center mb-4">
+        <h2 class="section-title">Mi Perfil</h2>
     </div>
-    <div class="border-radius mt-2">
-      <div class="flex justify-content-between px-2 mt-2">
-        <h2 class="mb-0">Contactos de Emergencia</h2>
-        <button mat-button mat-flat-button color="primary" (click)="openModalAgregarContracto()">+ Agregar Contacto</button>
-      </div>
-      <div class="p-2">
-        <app-table
-          title="Contactos de Emergencia"
-          [keys]="keys"
-          [displayedColumns]="displayedColumns" 
-          [data]="data"
-          [configActions]="configActions" 
-          (deleteIndexData)="eliminarContacto($event)"
-          (editIndexData)="editContacto($event)"
-        >
-        </app-table>
-      </div>
+
+    <mat-card class="glass-card profile-card mb-5">
+        <div class="flex flex-column md:flex-row align-items-center w-full">
+            
+            <!-- Avatar -->
+            <div class="avatar-wrapper mb-3 md:mb-0">
+                <mat-icon class="profile-avatar-icon">account_circle</mat-icon>
+            </div>
+
+            <!-- Datos Principales -->
+            <div class="user-main-info flex-1 px-4 text-center md:text-left">
+                <h1 class="user-name m-0">{{user.nombre | titlecase}} {{user.apellido | titlecase}}</h1>
+                <p class="user-email mt-1 mb-2">{{user.email_user}}</p>
+                <div class="flex flex-wrap justify-content-center md:justify-content-start gap-2 mt-3">
+                    <span class="info-badge role-badge">
+                        <mat-icon>verified_user</mat-icon> {{user.role_nombre}}
+                    </span>
+                    <span class="info-badge default-badge">
+                        <mat-icon>badge</mat-icon> CI: {{user.cedula}}
+                    </span>
+                    <span class="info-badge default-badge">
+                        <mat-icon>account_balance</mat-icon> Cuenta: {{user.nroCuenta === null ? 'No activa' : user.nroCuenta}}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Sección de Saldo -->
+            <div class="balance-section mt-4 md:mt-0 p-3 text-center md:text-right">
+                <p class="balance-label m-0">Saldo Disponible</p>
+                <h2 class="balance-amount m-0 mb-3" [class.negative]="(user.saldo ? +user.saldo : 0) < 0">${{user.saldo || 0}}</h2>
+            </div>
+
+        </div>
+    </mat-card>
+
+    <!-- Contactos de Emergencia -->
+    <div class="flex justify-content-between items-center mb-3">
+        <h2 class="section-title">Contactos de Emergencia</h2>
+        <button mat-flat-button color="primary" class="add-contact-btn" (click)="openModalAgregarContracto()">
+            <mat-icon>add</mat-icon>
+            <span class="ml-1">Agregar Contacto</span>
+        </button>
     </div>
-  </div>
+    
+    <mat-card class="glass-card table-card p-0">
+        <div class="table-container">
+            <app-table
+                title="Contactos de Emergencia"
+                [keys]="keys"
+                [displayedColumns]="displayedColumns" 
+                [data]="data"
+                [configActions]="configActions" 
+                (deleteIndexData)="eliminarContacto($event)"
+                (editIndexData)="editContacto($event)"
+            >
+            </app-table>
+        </div>
+    </mat-card>
+</div>
