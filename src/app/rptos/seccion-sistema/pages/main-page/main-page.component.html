@@ -97,76 +97,446 @@
 
 
 
-<!-- Manejo de cliente -->
-<div class="flex justify-center items-center w-100" *ngIf="this.user()?.rol === 2" style="min-height: calc(100vh - 64px); background-image: url('assets/map_bg.png'); background-size: cover; background-position: center; position: relative;">
-  <!-- Capa de superposición para que el formulario resalte más -->
-  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.8) 100%); z-index: 0;"></div>
+<!-- Manejo de cliente (Dashboard Modernizado y Fotorrealista) -->
+<div class="dashboard-wrapper w-100" *ngIf="this.user()?.rol === 2">
   
-  <mat-card class="glass-card w-100" style="max-width: 500px; padding: 2.5rem 2rem; border-radius: 28px; z-index: 1; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+  <!-- 1. MAPA DE FONDO (Diseño premium simulado en SVG/CSS de alta fidelidad) -->
+  <div class="map-container">
+    <!-- SVG Vectorial representando calles fotorrealistas de la ciudad con un look satelital moderno -->
+    <svg class="city-map-svg" viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Degradados para avenidas y rutas -->
+        <linearGradient id="route-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#6366f1" />
+          <stop offset="100%" stop-color="#0ea5e9" />
+        </linearGradient>
+        <radialGradient id="poi-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(14, 165, 233, 0.4)" />
+          <stop offset="100%" stop-color="rgba(14, 165, 233, 0)" />
+        </radialGradient>
+        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.15" />
+        </filter>
+        <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      <!-- Zonas Verdes y Ríos (Parque General) -->
+      <rect width="1400" height="800" fill="#f0f2f5" />
+      <path d="M-100,200 Q200,100 600,250 T1300,100 T1500,150 L1500,800 L-100,800 Z" fill="#e2e8f0" opacity="0.4" />
+      <path d="M100,0 Q300,300 200,500 T400,800" fill="none" stroke="#e0f2fe" stroke-width="40" opacity="0.6" />
+      <path d="M800,0 Q1000,200 900,450 T1100,800" fill="none" stroke="#dcfce7" stroke-width="80" opacity="0.5" />
+
+      <!-- Cuadrícula de calles de fondo -->
+      <g stroke="#ffffff" stroke-width="6" opacity="0.9">
+        <!-- Calles horizontales principales -->
+        <line x1="0" y1="150" x2="1400" y2="150" stroke-width="12" />
+        <line x1="0" y1="380" x2="1400" y2="380" stroke-width="16" />
+        <line x1="0" y1="580" x2="1400" y2="580" stroke-width="14" />
+        
+        <!-- Calles verticales principales -->
+        <line x1="250" y1="0" x2="250" y2="800" stroke-width="14" />
+        <line x1="700" y1="0" x2="700" y2="800" stroke-width="18" />
+        <line x1="1150" y1="0" x2="1150" y2="800" stroke-width="12" />
+
+        <!-- Calles secundarias de conexión -->
+        <line x1="0" y1="280" x2="700" y2="280" />
+        <line x1="700" y1="480" x2="1400" y2="480" />
+        <line x1="450" y1="150" x2="450" y2="580" />
+        <line x1="950" y1="380" x2="950" y2="800" />
+      </g>
+
+      <!-- Resalte del PDI clave "Llanito Stone" en el mapa -->
+      <circle cx="700" cy="380" r="85" fill="url(#poi-glow)" />
+      
+      <!-- Ruta interactiva suave con gradiente azul entre puntos A -> D -> B -->
+      <path d="M250,580 L250,365 L700,365 L700,150 L1150,150" fill="none" stroke="url(#route-gradient)" stroke-width="8" filter="url(#glow-filter)" stroke-linecap="round" stroke-linejoin="round" />
+      
+      <!-- Líneas internas punteadas de la ruta activa -->
+      <path d="M250,580 L250,365 L700,365 L700,150 L1150,150" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="8,6" stroke-linecap="round" />
+    </svg>
+
+    <!-- Marcadores de Taxis interactivos moviéndose por la pantalla (CSS animado) -->
+    <div class="map-taxi taxi-1">
+      <div class="taxi-pin"><mat-icon>local_taxi</mat-icon></div>
+      <div class="taxi-pulse"></div>
+    </div>
+    <div class="map-taxi taxi-2">
+      <div class="taxi-pin"><mat-icon>local_taxi</mat-icon></div>
+      <div class="taxi-pulse"></div>
+    </div>
+    <div class="map-taxi taxi-3">
+      <div class="taxi-pin"><mat-icon>local_taxi</mat-icon></div>
+      <div class="taxi-pulse"></div>
+    </div>
+    <div class="map-taxi taxi-4">
+      <div class="taxi-pin"><mat-icon>local_taxi</mat-icon></div>
+      <div class="taxi-pulse"></div>
+    </div>
+
+    <!-- Puntos de Interés Estilizados en 3D e Hitos -->
     
-    <mat-card-header class="justify-center mb-4">
-      <div class="flex flex-col items-center">
-        <div style="background: var(--primary-color); border-radius: 50%; padding: 12px; margin-bottom: 12px; box-shadow: var(--shadow-primary);">
-          <mat-icon style="color: white; transform: scale(1.2);">directions_car</mat-icon>
+    <!-- Hito Llanito Stone -->
+    <div class="poi-marker" style="left: 50%; top: 47.5%;">
+      <div class="poi-3d-building stone-glow">🗿</div>
+      <div class="poi-label">Llanito Stone (Hito)</div>
+    </div>
+
+    <!-- Puntos de Mapa A, B, D -->
+    
+    <!-- Punto A: Casa -->
+    <div class="poi-marker map-point-a" style="left: 17.8%; top: 72.5%;">
+      <div class="poi-3d-building hover-bounce">🏡</div>
+      <div class="poi-label-bubble">A: Casa</div>
+    </div>
+
+    <!-- Punto D: Gimnasio -->
+    <div class="poi-marker map-point-d" style="left: 17.8%; top: 45.625%;">
+      <div class="poi-3d-building hover-bounce">🏋️</div>
+      <div class="poi-label-bubble">D: Gimnasio</div>
+    </div>
+
+    <!-- Punto B: Oficina -->
+    <div class="poi-marker map-point-b" style="left: 82.1%; top: 18.7%;">
+      <div class="poi-3d-building hover-bounce">🏢</div>
+      <div class="poi-label-bubble">B: Oficina</div>
+    </div>
+  </div>
+
+  <!-- Capa de superposición para integrar armoniosamente los paneles con el mapa -->
+  <div class="dashboard-overlay"></div>
+
+  <!-- 2. CONTENEDOR PRINCIPAL DE PANELES (GRID) -->
+  <div class="dashboard-grid-container" [class.left-hidden]="!leftPanelVisible" [class.right-hidden]="!rightPanelVisible">
+    
+    <!-- PANEL IZQUIERDO: LUGARES FRECUENTES -->
+    <div class="panel-left-wrapper">
+      <mat-card class="glass-card panel-card fade-in">
+        <mat-card-header class="pb-3 border-b-glass">
+          <div class="flex items-center gap-2">
+            <div class="panel-icon-circle accent">
+              <mat-icon>star</mat-icon>
+            </div>
+            <div>
+              <mat-card-title class="panel-title-text">LUGARES FRECUENTES</mat-card-title>
+              <mat-card-subtitle class="panel-subtitle-text">Tus destinos más habituales</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content class="pt-3">
+          <div class="frequent-places-list">
+            <div class="frequent-item-card" *ngFor="let item of lugaresFrecuentes" (click)="seleccionarDestinoFrecuente(item)">
+              <div class="frequent-icon-3d">{{ item.icon }}</div>
+              <div class="frequent-details">
+                <span class="frequent-name">{{ item.nombre }}</span>
+                <span class="frequent-desc">{{ item.tipo }}</span>
+                <div class="frequent-popularity">
+                  <div class="stars-container">
+                    <mat-icon class="star-filled">star</mat-icon>
+                    <mat-icon class="star-filled">star</mat-icon>
+                    <mat-icon class="star-filled">star</mat-icon>
+                    <mat-icon class="star-filled">star</mat-icon>
+                    <mat-icon class="star-filled" *ngIf="item.stars >= 4.8">star</mat-icon>
+                    <mat-icon class="star-half" *ngIf="item.stars < 4.8">star_half</mat-icon>
+                  </div>
+                  <span class="score-number">{{ item.stars | number:'1.1-1' }}</span>
+                </div>
+              </div>
+              <div class="frequent-arrow">
+                <mat-icon>chevron_right</mat-icon>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- PANEL CENTRAL: ¿A DÓNDE VAMOS? -->
+    <div class="panel-center-wrapper">
+      <mat-card class="glass-card central-card shadow-premium fade-in">
+        <mat-card-header class="justify-center mb-3">
+          <div class="flex flex-col items-center">
+            <div class="brand-badge">
+              <mat-icon class="brand-badge-icon">directions_car</mat-icon>
+            </div>
+            <mat-card-title class="central-title">¿A dónde vamos?</mat-card-title>
+            <mat-card-subtitle class="central-subtitle">Viaja seguro con Llanito Express</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form class="flex flex-col w-100" [formGroup]="lugarFormulario" (ngSubmit)="guardarTraslado()">
+            
+            <div class="route-fields-container">
+              <!-- Línea vertical conectora moderna con iconos integrados -->
+              <div class="connector-line">
+                <mat-icon class="color-primary-icon connector-icon-start">my_location</mat-icon>
+                <div class="connector-line-body"></div>
+                <mat-icon class="color-accent-icon connector-icon-end">location_on</mat-icon>
+              </div>
+
+              <!-- Punto de Origen con la etiqueta GPS integrada requerida -->
+              <div class="field-wrapper mb-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Punto de Origen</mat-label>
+                  <input type="text" matInput formControlName="origen" [matAutocomplete]="autoOrigen" placeholder="Ej: Avenida Libertador, Caracas">
+                  <mat-autocomplete #autoOrigen="matAutocomplete" [displayWith]="displayPlace">
+                    <mat-option *ngFor="let place of origenResultados$ | async" [value]="place">
+                      <div class="flex items-center">
+                        <mat-icon color="primary" class="mr-2 icon-scale">place</mat-icon>
+                        <span class="autocomplete-text">{{ place.display_name }}</span>
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                
+                <!-- Etiqueta sutil GPS verde requerida -->
+                <div class="gps-confirmed-label fade-in">
+                  <span class="gps-dot"></span>
+                  <span class="gps-text">Localización actual confirmada vía GPS</span>
+                </div>
+              </div>
+
+              <!-- Destino -->
+              <div class="field-wrapper mb-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Destino</mat-label>
+                  <input type="text" matInput formControlName="destino" [matAutocomplete]="autoDestino" placeholder="Ej: Plaza Altamira, Caracas">
+                  <mat-autocomplete #autoDestino="matAutocomplete" [displayWith]="displayPlace">
+                    <mat-option *ngFor="let place of destinoResultados$ | async" [value]="place">
+                      <div class="flex items-center">
+                        <mat-icon color="accent" class="mr-2 icon-scale">place</mat-icon>
+                        <span class="autocomplete-text">{{ place.display_name }}</span>
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Nuevos campos: Hora de recogida y Pasajeros requeridos -->
+            <div class="grid-two-columns gap-3 mb-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Hora de Recogida</mat-label>
+                <mat-icon matPrefix class="color-muted-icon">schedule</mat-icon>
+                <input type="time" matInput formControlName="horaRecogida">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Pasajeros</mat-label>
+                <mat-icon matPrefix class="color-muted-icon">people</mat-icon>
+                <mat-select formControlName="pasajeros">
+                  <mat-option [value]="1">1 Pasajero</mat-option>
+                  <mat-option [value]="2">2 Pasajeros</mat-option>
+                  <mat-option [value]="3">3 Pasajeros</mat-option>
+                  <mat-option [value]="4">4 Pasajeros</mat-option>
+                  <mat-option [value]="5">5 Pasajeros</mat-option>
+                  <mat-option [value]="6">6 Pasajeros (Van)</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Botón de Envío -->
+            <div class="flex justify-center mt-3">
+              <button mat-flat-button color="primary" class="w-100 submit-ride-button" type="submit">
+                <mat-icon class="mr-2">local_taxi</mat-icon>
+                <span>Pedir Viaje</span>
+              </button>
+            </div>
+
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- PANEL DERECHO: VIAJES RECIENTES & ESTIMACIÓN DE TARIFA/TIEMPO -->
+    <div class="panel-right-wrapper">
+      
+      <!-- Panel de Viajes Recientes (Compacto, reubicado) -->
+      <mat-card class="glass-card panel-card mb-3 compact-panel fade-in">
+        <mat-card-header class="pb-2 border-b-glass">
+          <div class="flex items-center gap-2">
+            <div class="panel-icon-circle primary">
+              <mat-icon>history</mat-icon>
+            </div>
+            <div>
+              <mat-card-title class="panel-title-text small">VIAJES RECIENTES</mat-card-title>
+              <mat-card-subtitle class="panel-subtitle-text">Tus últimos traslados</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content class="pt-2">
+          <div class="recent-trips-list">
+            <div class="recent-trip-item" *ngFor="let trip of viajesRecientes">
+              <div class="trip-icon-wrapper">
+                <mat-icon>directions_run</mat-icon>
+              </div>
+              <div class="trip-details">
+                <span class="trip-route">{{ trip.origen }} ➔ {{ trip.destino }}</span>
+                <span class="trip-date">{{ trip.fecha }}</span>
+              </div>
+              <div class="trip-pricing-status">
+                <span class="trip-cost">${{ trip.costo | number:'1.2-2' }}</span>
+                <span class="trip-badge">{{ trip.estado }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Panel de Estimación de Tarifas y Tiempos (Reemplaza / Expande Live Traffic) -->
+      <mat-card class="glass-card panel-card fare-estimation-panel fade-in">
+        <mat-card-header class="pb-3 border-b-glass">
+          <div class="flex items-center gap-2">
+            <div class="panel-icon-circle accent">
+              <mat-icon>payments</mat-icon>
+            </div>
+            <div>
+              <mat-card-title class="panel-title-text">ESTIMACIÓN DE TARIFA Y TIEMPO</mat-card-title>
+              <mat-card-subtitle class="panel-subtitle-text">Tarifas según la ruta actual</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content class="pt-3">
+          <!-- Mostrar estimaciones si el usuario seleccionó origen y destino -->
+          <div class="estimation-options-list" *ngIf="mostrarEstimaciones; else emptyEstimations">
+            
+            <div class="route-distance-badge mb-3">
+              <mat-icon>map</mat-icon>
+              <span>Distancia de Ruta Estimada: <strong>{{ distanciaKm }} km</strong></span>
+            </div>
+
+            <div class="vehicle-option-card" 
+                 *ngFor="let est of estimaciones" 
+                 [class.active]="vehiculoSeleccionado === est.tipo"
+                 (click)="seleccionarVehiculo(est.tipo)">
+              <div class="vehicle-icon-circle" [class.premium]="est.tipo === 'premium'" [class.van]="est.tipo === 'van'">
+                <mat-icon>{{ est.icon }}</mat-icon>
+              </div>
+              <div class="vehicle-details">
+                <span class="vehicle-name">{{ est.nombre }}</span>
+                <span class="vehicle-desc">{{ est.desc }}</span>
+              </div>
+              <div class="vehicle-price-eta">
+                <div class="eta-wrapper">
+                  <mat-icon class="mini-icon">schedule</mat-icon>
+                  <span>{{ est.eta }} min</span>
+                </div>
+                <div class="price-wrapper">
+                  <mat-icon class="mini-icon text-success">monetization_on</mat-icon>
+                  <span class="fare-text">${{ est.tarifa | number:'1.2-2' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State si no hay ruta activa -->
+          <ng-template #emptyEstimations>
+            <div class="estimations-empty-state">
+              <div class="empty-icon-pulse">
+                <mat-icon>commute</mat-icon>
+              </div>
+              <span class="empty-title">Sin ruta seleccionada</span>
+              <span class="empty-desc">Ingresa origen y destino en el panel central para calcular tarifas estimadas y tiempos de llegada en vivo.</span>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+  </div>
+
+  <!-- 3. PIE DE PÁGINA (Barra inferior con accesos rápidos) -->
+  <div class="bottom-footer-bar">
+    <div class="bottom-footer-content glass-card">
+      
+      <button class="footer-action-btn" [class.active]="rightPanelVisible" (click)="toggleRightPanel()" mat-ripple>
+        <mat-icon class="sharp-icon">history</mat-icon>
+        <span>Historial de Viajes</span>
+      </button>
+
+      <button class="footer-action-btn" [class.active]="leftPanelVisible" (click)="toggleLeftPanel()" mat-ripple>
+        <mat-icon class="sharp-icon">place</mat-icon>
+        <span>Mis Lugares</span>
+      </button>
+
+      <button class="footer-action-btn" [class.active]="!leftPanelVisible && !rightPanelVisible" (click)="leftPanelVisible = false; rightPanelVisible = false" mat-ripple>
+        <mat-icon class="sharp-icon">local_taxi</mat-icon>
+        <span>Receinarin</span>
+      </button>
+
+      <button class="footer-action-btn" mat-ripple>
+        <mat-icon class="sharp-icon">assessment</mat-icon>
+        <span>Roporte</span>
+      </button>
+
+      <button class="footer-action-btn" [class.active]="chatAbierto" mat-ripple (click)="toggleChat()">
+        <mat-icon class="sharp-icon">contact_support</mat-icon>
+        <span>Soporte</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- 4. CHAT DE SOPORTE FLOTANTE (Esquina inferior derecha) -->
+  <div class="support-chat-wrapper" [class.active]="chatAbierto">
+    
+    <!-- Botón de chat flotante -->
+    <button class="support-floating-button shadow-premium" (click)="toggleChat()">
+      <mat-icon *ngIf="!chatAbierto">support_agent</mat-icon>
+      <mat-icon *ngIf="chatAbierto">close</mat-icon>
+      <span class="chat-unread-badge" *ngIf="!chatAbierto">1</span>
+    </button>
+
+    <!-- Ventana del chat de soporte -->
+    <div class="support-chat-window glass-card">
+      <div class="chat-header">
+        <div class="chat-agent-info">
+          <div class="agent-avatar">LE</div>
+          <div class="agent-details">
+            <span class="agent-name">Soporte Llanito Express</span>
+            <span class="agent-status"><span class="status-dot"></span>En línea</span>
+          </div>
         </div>
-        <mat-card-title style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">¿A dónde vamos?</mat-card-title>
-        <mat-card-subtitle>Solicita tu viaje de forma segura</mat-card-subtitle>
+        <button class="chat-close-btn" (click)="toggleChat()">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
-    </mat-card-header>
 
-    <mat-card-content>
-      <form class="flex flex-col w-100" [formGroup]="lugarFormulario" (ngSubmit)="guardarTraslado()">
-
-        <div style="position: relative; margin-left: 10px;">
-          <!-- Línea vertical conectora -->
-          <div style="position: absolute; left: 16px; top: 40px; bottom: 40px; width: 2px; background-color: var(--border-light); z-index: 1;"></div>
-
-          <mat-form-field class="w-100 mb-3" appearance="outline">
-            <mat-label>Punto de Origen</mat-label>
-            <mat-icon matPrefix color="primary" style="opacity: 0.8; z-index: 2; background: white; border-radius: 50%;">my_location</mat-icon>
-            <input type="text" matInput formControlName="origen" [matAutocomplete]="autoOrigen" placeholder="Ej: Avenida Libertador, Caracas">
-            <mat-autocomplete #autoOrigen="matAutocomplete" [displayWith]="displayPlace">
-              <mat-option *ngFor="let place of origenResultados$ | async" [value]="place">
-                <div class="flex items-center">
-                  <mat-icon color="primary" class="mr-2" style="transform: scale(0.8);">place</mat-icon>
-                  <span style="font-size: 0.9rem; line-height: 1.2;">{{ place.display_name }}</span>
-                </div>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <mat-form-field class="w-100 mb-2" appearance="outline">
-            <mat-label>Destino</mat-label>
-            <mat-icon matPrefix color="accent" style="opacity: 0.8; z-index: 2; background: white; border-radius: 50%;">location_on</mat-icon>
-            <input type="text" matInput formControlName="destino" [matAutocomplete]="autoDestino" placeholder="Ej: Plaza Altamira, Caracas">
-            <mat-autocomplete #autoDestino="matAutocomplete" [displayWith]="displayPlace">
-              <mat-option *ngFor="let place of destinoResultados$ | async" [value]="place">
-                <div class="flex items-center">
-                  <mat-icon color="accent" class="mr-2" style="transform: scale(0.8);">place</mat-icon>
-                  <span style="font-size: 0.9rem; line-height: 1.2;">{{ place.display_name }}</span>
-                </div>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+      <div class="chat-messages-container">
+        <div class="chat-message" 
+             *ngFor="let msg of chatMensajes" 
+             [class.agent]="msg.sender === 'soporte'" 
+             [class.user]="msg.sender === 'usuario'">
+          <div class="message-bubble">{{ msg.text }}</div>
+          <span class="message-time">{{ msg.time }}</span>
         </div>
+      </div>
 
-        <div class="flex justify-center mt-4">
-          <button mat-flat-button color="primary" class="w-100" style="padding: 26px 0; font-size: 1.15rem; font-weight: 600; border-radius: 16px; box-shadow: var(--shadow-primary);" type="submit">
-            Pedir Viaje
-          </button>
-        </div>
+      <div class="chat-footer">
+        <input type="text" 
+               class="chat-input" 
+               placeholder="Escribe un mensaje..." 
+               [(ngModel)]="nuevoMensaje" 
+               (keyup.enter)="enviarMensajeSupport()">
+        <button class="chat-send-btn" (click)="enviarMensajeSupport()">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    </div>
 
-      </form>
-    </mat-card-content>
-  </mat-card>
+  </div>
+
 </div>
 
 
-
-<!--  -->
 <!-- Vista Chofer -->
-<!--  -->
-
 <div class="p-4 w-100" *ngIf="this.user()?.rol === 3">
   <mat-card class="glass-card w-100">
     <mat-card-header class="pt-2 pb-2">

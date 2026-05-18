@@ -82,64 +82,6 @@ input[type="file"]::-webkit-file-upload-button {
     }
 }
 
-/* Client view responsive styles */
-@media (max-width: 768px) {
-    .flex.justify-center.items-center.w-100 {
-        padding: 1rem;
-    }
-    
-    .glass-card.w-100[style*="max-width: 500px"] {
-        max-width: 100% !important;
-        padding: 1.5rem 1rem !important;
-        border-radius: 20px !important;
-    }
-    
-    mat-card-title[style*="font-size: 1.5rem"] {
-        font-size: 1.25rem !important;
-    }
-    
-    button[style*="padding: 26px 0"] {
-        padding: 20px 0 !important;
-        font-size: 1rem !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .flex.justify-center.items-center.w-100 {
-        padding: 0.5rem;
-    }
-    
-    .glass-card.w-100[style*="max-width: 500px"] {
-        padding: 1rem 0.75rem !important;
-        border-radius: 16px !important;
-    }
-    
-    mat-card-title[style*="font-size: 1.5rem"] {
-        font-size: 1.1rem !important;
-    }
-    
-    mat-card-subtitle {
-        font-size: 0.9rem !important;
-    }
-    
-    button[style*="padding: 26px 0"] {
-        padding: 16px 0 !important;
-        font-size: 0.9rem !important;
-    }
-    
-    /* Adjust form fields */
-    .mat-form-field {
-        margin-bottom: 0.5rem !important;
-    }
-    
-    /* Adjust vertical line */
-    div[style*="position: absolute; left: 16px; top: 40px; bottom: 40px"] {
-        left: 12px !important;
-        top: 30px !important;
-        bottom: 30px !important;
-    }
-}
-
 /* Driver view responsive styles */
 @media (max-width: 768px) {
     .mat-column-id {
@@ -154,5 +96,1377 @@ input[type="file"]::-webkit-file-upload-button {
 @media (max-width: 480px) {
     .mat-column-color {
         display: none;
+    }
+}
+
+/* ==========================================================================
+   NUEVO DASHBOARD CLIENTE PREMIUM (Llanito Express Modernization)
+   ========================================================================== */
+
+/* 1. Contenedores del Dashboard */
+.dashboard-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 70px);
+    height: calc(100vh - 70px);
+    overflow: hidden;
+    background-color: #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.city-map-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.97) contrast(1.01);
+}
+
+.dashboard-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, rgba(241, 245, 249, 0.45) 80%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.dashboard-grid-container {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 320px 1fr 350px;
+    gap: 20px;
+    padding: 20px;
+    height: calc(100% - 90px); /* Deja espacio para el footer */
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    transition: grid-template-columns 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Transiciones de Grid cuando se ocultan los paneles */
+.dashboard-grid-container.left-hidden {
+    grid-template-columns: 0px 1fr 350px;
+}
+.dashboard-grid-container.right-hidden {
+    grid-template-columns: 320px 1fr 0px;
+}
+.dashboard-grid-container.left-hidden.right-hidden {
+    grid-template-columns: 0px 1fr 0px;
+}
+
+.panel-left-wrapper, 
+.panel-right-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none; /* Ocultar scrollbar estándar en Firefox */
+    padding-bottom: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    width: 100%;
+}
+
+.panel-left-wrapper::-webkit-scrollbar,
+.panel-right-wrapper::-webkit-scrollbar {
+    display: none; /* Ocultar scrollbar en Chrome/Safari */
+}
+
+/* Ocultar visualmente con animaciones suaves */
+.left-hidden .panel-left-wrapper {
+    width: 0px;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    padding: 0;
+}
+
+.right-hidden .panel-right-wrapper {
+    width: 0px;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    padding: 0;
+}
+
+.panel-center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+/* 2. Marcadores y Elementos del Mapa */
+.poi-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.poi-3d-building {
+    font-size: 32px;
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.25));
+    transition: transform 0.3s ease;
+    user-select: none;
+}
+
+.poi-marker:hover .poi-3d-building {
+    transform: scale(1.2) translateY(-4px);
+}
+
+.stone-glow {
+    filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.6)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+    animation: stonePulse 3s infinite alternate;
+}
+
+.poi-label {
+    margin-top: 4px;
+    background: rgba(15, 23, 42, 0.95);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.poi-label-bubble {
+    margin-top: 4px;
+    background: white;
+    color: var(--text-main);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.hover-bounce {
+    animation: floatBounce 2s infinite ease-in-out;
+}
+
+.map-point-a .poi-label-bubble { border-left: 4px solid var(--primary-color); }
+.map-point-d .poi-label-bubble { border-left: 4px solid var(--accent-color); }
+.map-point-b .poi-label-bubble { border-left: 4px solid #f59e0b; }
+
+/* Marcadores de Taxis */
+.map-taxi {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+}
+
+.taxi-pin {
+    width: 28px;
+    height: 28px;
+    background: #eab308;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border: 2px solid white;
+}
+
+.taxi-pin mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+}
+
+.taxi-pulse {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #eab308;
+    top: 0;
+    left: 0;
+    transform: scale(1);
+    animation: radarPulse 2.5s infinite;
+    opacity: 0.8;
+}
+
+/* Rutas de Taxis (Animación por las calles del mapa) */
+.taxi-1 { animation: driveRoute1 28s infinite linear; }
+.taxi-2 { animation: driveRoute2 20s infinite linear; }
+.taxi-3 { animation: driveRoute3 32s infinite linear; }
+.taxi-4 { animation: driveRoute4 24s infinite linear; }
+
+/* 3. Estilos de Tarjetas Glassmorphic */
+.glass-card {
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08), 
+                0 5px 15px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+.panel-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.border-b-glass {
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.panel-icon-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.panel-icon-circle.primary { background: rgba(99, 102, 241, 0.1); color: var(--primary-color); }
+.panel-icon-circle.accent { background: rgba(14, 165, 233, 0.1); color: var(--accent-color); }
+
+.panel-title-text {
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    color: var(--text-main) !important;
+    letter-spacing: 0.8px;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+}
+
+.panel-title-text.small {
+    font-size: 0.78rem !important;
+}
+
+.panel-subtitle-text {
+    font-size: 0.72rem !important;
+    color: var(--text-muted) !important;
+}
+
+/* 4. Panel Izquierdo: Lugares Frecuentes */
+.frequent-places-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.frequent-item-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.frequent-item-card:hover {
+    background: white;
+    border-color: var(--primary-color);
+    transform: translateX(6px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.08);
+}
+
+.frequent-icon-3d {
+    font-size: 26px;
+    background: rgba(241, 245, 249, 0.8);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.frequent-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.frequent-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.frequent-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.frequent-popularity {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.stars-container {
+    display: flex;
+    gap: 1px;
+}
+
+.stars-container mat-icon {
+    font-size: 11px;
+    width: 11px;
+    height: 11px;
+}
+
+.star-filled { color: #f59e0b; }
+.star-half { color: #f59e0b; }
+
+.score-number {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #f59e0b;
+}
+
+.frequent-arrow {
+    color: var(--text-muted);
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.frequent-item-card:hover .frequent-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+    color: var(--primary-color);
+}
+
+/* 5. Panel Central: Formulario de Viaje */
+.central-card {
+    width: 100%;
+    max-width: 460px;
+    padding: 24px !important;
+    border-radius: 28px !important;
+    box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.7) !important;
+}
+
+.brand-badge {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    border-radius: 50%;
+    padding: 12px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+}
+
+.brand-badge-icon {
+    color: white;
+    transform: scale(1.15);
+}
+
+.central-title {
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    color: var(--text-main) !important;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+.central-subtitle {
+    font-size: 0.78rem !important;
+    color: var(--text-muted) !important;
+}
+
+.route-fields-container {
+    position: relative;
+}
+
+.connector-line {
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 24px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.connector-icon-start {
+    position: absolute;
+    left: 2px;
+    top: 18px;
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.connector-icon-end {
+    position: absolute;
+    left: 2px;
+    top: 134px;
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.connector-line-body {
+    position: absolute;
+    left: 11px;
+    top: 42px;
+    height: 88px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+    opacity: 0.6;
+}
+
+.field-wrapper {
+    position: relative;
+    padding-left: 36px;
+}
+
+.color-primary-icon { color: var(--primary-color) !important; opacity: 0.9; }
+.color-accent-icon { color: var(--accent-color) !important; opacity: 0.9; }
+.color-muted-icon { color: var(--text-muted) !important; opacity: 0.7; }
+
+/* GPS Label Estilos */
+.gps-confirmed-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: -10px;
+    margin-bottom: 12px;
+    margin-left: 2px;
+    padding: 5px 10px;
+    background: rgba(34, 197, 94, 0.07);
+    border-radius: 8px;
+    border: 1px solid rgba(34, 197, 94, 0.15);
+    width: fit-content;
+}
+
+.gps-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px #22c55e;
+    animation: gpsPulse 1.8s infinite;
+}
+
+.gps-text {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #15803d;
+    font-family: 'Inter', sans-serif;
+}
+
+.grid-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.submit-ride-button {
+    padding: 24px 0 !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    border-radius: 16px !important;
+    box-shadow: var(--shadow-primary) !important;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%) !important;
+}
+
+.submit-ride-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary-hover) !important;
+}
+
+/* 6. Panel Derecho: Estimaciones e Historial */
+.compact-panel {
+    max-height: 240px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.compact-panel mat-card-content {
+    overflow-y: auto;
+    scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+}
+
+.compact-panel mat-card-content::-webkit-scrollbar {
+    display: none; /* Ocultar scrollbar en Chrome/Safari */
+}
+
+.recent-trips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.recent-trip-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.trip-icon-wrapper {
+    background: rgba(148, 163, 184, 0.12);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+.trip-icon-wrapper mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.trip-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.trip-route {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.trip-date {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+.trip-pricing-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.trip-cost {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.trip-badge {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #166534;
+    background: #dcfce7;
+    padding: 1px 6px;
+    border-radius: 8px;
+}
+
+/* Estimación de Tarifas */
+.fare-estimation-panel {
+    flex-grow: 1;
+}
+
+.route-distance-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(99, 102, 241, 0.08);
+    border-radius: 12px;
+    padding: 8px 12px;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    font-size: 0.78rem;
+    color: var(--primary-color);
+}
+
+.route-distance-badge mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.estimation-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vehicle-option-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vehicle-option-card:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+.vehicle-option-card.active {
+    background: white !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.1) !important;
+    transform: translateY(-1px);
+}
+
+.vehicle-icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vehicle-icon-circle.premium { background: rgba(14, 165, 233, 0.1); color: var(--accent-color); }
+.vehicle-icon-circle.van { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+.vehicle-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.vehicle-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.vehicle-desc {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    line-height: 1.1;
+}
+
+.vehicle-price-eta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.eta-wrapper, 
+.price-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.price-wrapper {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.mini-icon {
+    font-size: 12px !important;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.text-success { color: #16a34a !important; }
+
+/* Empty state para tarifas */
+.estimations-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.empty-icon-pulse {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(148, 163, 184, 0.08);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    animation: bounceSlow 3s infinite ease-in-out;
+}
+
+.empty-icon-pulse mat-icon {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+}
+
+.empty-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.empty-desc {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+}
+
+/* 7. Pie de Página (Accesos rápidos inferior) */
+.bottom-footer-bar {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.bottom-footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    max-width: 640px;
+    padding: 8px 12px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06) !important;
+}
+
+.footer-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    flex-grow: 1;
+}
+
+.footer-action-btn:hover {
+    color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.footer-action-btn.active {
+    color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.sharp-icon {
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+/* 8. Chat de Soporte Flotante */
+.support-chat-wrapper {
+    position: absolute;
+    bottom: 84px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.support-floating-button {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+    position: relative;
+}
+
+.support-floating-button:hover {
+    transform: scale(1.05) rotate(5deg);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45);
+}
+
+.support-floating-button mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+.chat-unread-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.support-chat-window {
+    width: 310px;
+    height: 380px;
+    display: none;
+    flex-direction: column;
+    border-radius: 20px !important;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12) !important;
+    overflow: hidden;
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.support-chat-wrapper.active .support-chat-window {
+    display: flex;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.chat-agent-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.agent-avatar {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.78rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+
+.agent-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.agent-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.agent-status {
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.9;
+}
+
+.status-dot {
+    width: 5px;
+    height: 5px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px #22c55e;
+}
+
+.chat-close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.chat-close-btn:hover {
+    opacity: 1;
+}
+
+.chat-close-btn mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.chat-messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(248, 250, 252, 0.4);
+}
+
+.chat-message {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.chat-message.agent {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.chat-message.user {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.message-bubble {
+    padding: 8px 12px;
+    border-radius: 14px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.chat-message.agent .message-bubble {
+    background: white;
+    color: var(--text-main);
+    border-bottom-left-radius: 3px;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.chat-message.user .message-bubble {
+    background: var(--primary-color);
+    color: white;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.15);
+}
+
+.message-time {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.chat-footer {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: white;
+    border-top: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.chat-input {
+    flex-grow: 1;
+    border: none;
+    padding: 8px 4px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    outline: none;
+}
+
+.chat-send-btn {
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.chat-send-btn:hover {
+    transform: scale(1.1);
+}
+
+.chat-send-btn mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+/* ==========================================================================
+   ANIMACIONES CLAVE DE LA INTERFAZ
+   ========================================================================== */
+
+@keyframes radarPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes gpsPulse {
+    0% { opacity: 0.6; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 0.6; transform: scale(0.9); }
+}
+
+@keyframes stonePulse {
+    0% { filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.4)) drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+    100% { filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.7)) drop-shadow(0 8px 14px rgba(0,0,0,0.3)); }
+}
+
+@keyframes floatBounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(15px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bounceSlow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+/* Rutas de conducción simuladas para taxis */
+@keyframes driveRoute1 {
+    0% { left: 17.8%; top: 72.5%; transform: translate(-50%, -50%) rotate(0deg); }
+    20% { left: 17.8%; top: 45.625%; transform: translate(-50%, -50%) rotate(90deg); }
+    40% { left: 50.0%; top: 45.625%; transform: translate(-50%, -50%) rotate(0deg); }
+    60% { left: 50.0%; top: 18.75%; transform: translate(-50%, -50%) rotate(90deg); }
+    80% { left: 82.1%; top: 18.75%; transform: translate(-50%, -50%) rotate(180deg); }
+    100% { left: 17.8%; top: 72.5%; transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+@keyframes driveRoute2 {
+    0% { left: 50.0%; top: 18.75%; transform: translate(-50%, -50%) rotate(180deg); }
+    30% { left: 50.0%; top: 45.625%; transform: translate(-50%, -50%) rotate(270deg); }
+    60% { left: 17.8%; top: 45.625%; transform: translate(-50%, -50%) rotate(180deg); }
+    100% { left: 50.0%; top: 18.75%; transform: translate(-50%, -50%) rotate(180deg); }
+}
+
+@keyframes driveRoute3 {
+    0% { left: 82.1%; top: 18.7%; transform: translate(-50%, -50%) rotate(270deg); }
+    50% { left: 82.1%; top: 72.5%; transform: translate(-50%, -50%) rotate(180deg); }
+    100% { left: 82.1%; top: 18.7%; transform: translate(-50%, -50%) rotate(270deg); }
+}
+
+@keyframes driveRoute4 {
+    0% { left: 17.8%; top: 72.5%; transform: translate(-50%, -50%) rotate(90deg); }
+    55% { left: 82.1%; top: 72.5%; transform: translate(-50%, -50%) rotate(0deg); }
+    100% { left: 17.8%; top: 72.5%; transform: translate(-50%, -50%) rotate(90deg); }
+}
+
+/* ==========================================================================
+   DISEÑO RESPONSIVO PREMIUM PARA PANELES
+   ========================================================================== */
+
+/* Compactación basada en ALTURA de pantalla (Small Desktops/Laptops) */
+@media (max-height: 850px) {
+    .dashboard-grid-container {
+        padding: 12px;
+        gap: 12px;
+        height: calc(100% - 80px);
+    }
+    .central-card {
+        padding: 16px !important;
+        max-width: 420px;
+    }
+    .central-title {
+        font-size: 1.15rem !important;
+    }
+    .frequent-item-card {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+    .frequent-icon-3d {
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+    }
+    .recent-trip-item {
+        padding: 6px;
+    }
+    .vehicle-option-card {
+        padding: 6px 12px;
+        gap: 8px;
+    }
+    .vehicle-icon-circle {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-height: 720px) {
+    .dashboard-grid-container {
+        padding: 8px;
+        gap: 8px;
+        height: calc(100% - 75px);
+    }
+    .central-card {
+        padding: 12px !important;
+    }
+    .mat-mdc-form-field {
+        font-size: 13px;
+    }
+    .submit-ride-button {
+        padding: 18px 0 !important;
+        font-size: 0.95rem !important;
+    }
+    .frequent-places-list {
+        gap: 8px;
+    }
+    .frequent-name {
+        font-size: 0.8rem;
+    }
+    .vehicle-option-card {
+        padding: 4px 10px;
+    }
+}
+
+/* Modificaciones para pantallas medianas (Desktop reducidas) */
+@media (max-width: 1200px) {
+    .dashboard-grid-container {
+        grid-template-columns: 280px 1fr 310px;
+        gap: 16px;
+        padding: 16px;
+    }
+    .dashboard-grid-container.left-hidden {
+        grid-template-columns: 0px 1fr 310px;
+    }
+    .dashboard-grid-container.right-hidden {
+        grid-template-columns: 280px 1fr 0px;
+    }
+    .dashboard-grid-container.left-hidden.right-hidden {
+        grid-template-columns: 0px 1fr 0px;
+    }
+}
+
+/* Modo Tablet / Móvil (Diseño de Drawers Flotantes sobre el Mapa) */
+@media (max-width: 992px) {
+    /* El mapa y marcadores se quedan escalados sutilmente */
+    .stone-glow, .poi-label, .poi-label-bubble {
+        transform: scale(0.8);
+    }
+    
+    .dashboard-grid-container {
+        position: relative;
+        display: block; /* Desactivar grid para posicionar como overlays flotantes */
+        height: calc(100% - 80px);
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+    
+    /* El panel central es el único que flota por defecto en el centro-inferior */
+    .panel-center-wrapper {
+        position: absolute;
+        bottom: 84px; /* Flota sobre el pie de página */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 440px;
+        z-index: 10;
+        padding: 0;
+        box-sizing: border-box;
+        height: auto;
+    }
+    
+    .central-card {
+        width: 100%;
+        margin: 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+    }
+
+    /* Cajón flotante de Lugares Frecuentes (Izquierda) */
+    .panel-left-wrapper {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: calc(100% - 30px);
+        max-width: 320px;
+        height: auto;
+        max-height: calc(100% - 190px);
+        z-index: 40;
+        box-sizing: border-box;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+    
+    /* Estado oculto: se desliza fuera de pantalla por la izquierda */
+    .left-hidden .panel-left-wrapper {
+        transform: translateX(-120%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: calc(100% - 30px);
+    }
+    
+    /* Cajón flotante de Viajes & Estimaciones (Derecha) */
+    .panel-right-wrapper {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: calc(100% - 30px);
+        max-width: 340px;
+        height: auto;
+        max-height: calc(100% - 190px);
+        z-index: 40;
+        box-sizing: border-box;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+    
+    /* Estado oculto: se desliza fuera de pantalla por la derecha */
+    .right-hidden .panel-right-wrapper {
+        transform: translateX(120%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: calc(100% - 30px);
+    }
+
+    .bottom-footer-bar {
+        position: absolute;
+        bottom: 12px;
+        z-index: 100;
+    }
+
+    .support-chat-wrapper {
+        position: absolute;
+        bottom: 84px;
+        right: 16px;
+        z-index: 110;
+    }
+}
+
+/* Pantallas móviles muy pequeñas */
+@media (max-width: 576px) {
+    .dashboard-grid-container {
+        height: calc(100% - 75px);
+    }
+    
+    .panel-center-wrapper {
+        width: 92%;
+        bottom: 78px;
+    }
+    
+    .central-card {
+        padding: 14px !important;
+        border-radius: 20px !important;
+    }
+    
+    .central-title {
+        font-size: 1.1rem !important;
+    }
+    
+    .grid-two-columns {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .bottom-footer-content {
+        border-radius: 16px !important;
+        max-width: 94%;
+    }
+    
+    .footer-action-btn span {
+        display: none; /* Ocultar textos para que no se amontone en teléfonos */
+    }
+    
+    .footer-action-btn {
+        padding: 10px 4px;
+    }
+    
+    .panel-left-wrapper, 
+    .panel-right-wrapper {
+        max-width: 90%;
+        max-height: calc(100% - 240px);
+    }
+    
+    .support-chat-window {
+        width: 275px;
+        height: 330px;
     }
 }

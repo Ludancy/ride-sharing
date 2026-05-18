@@ -49,10 +49,81 @@ export class MainPageComponent implements OnInit, OnDestroy {
   lugarFormulario: FormGroup = this.fb.group({
     origen: ['', [Validators.required]],
     destino: ['', [Validators.required]],
+    horaRecogida: ['12:00', [Validators.required]],
+    pasajeros: [1, [Validators.required, Validators.min(1), Validators.max(6)]]
   });
 
   origenResultados$!: Observable<NominatimPlace[]>;
   destinoResultados$!: Observable<NominatimPlace[]>;
+
+  // Estado del Dashboard Modernizado
+  distanciaKm: number = 0;
+  mostrarEstimaciones: boolean = false;
+  vehiculoSeleccionado: string = 'estandar';
+  
+  lugaresFrecuentes = [
+    {
+      nombre: 'Oficina',
+      tipo: 'Trabajo',
+      stars: 4.9,
+      icon: '🏢',
+      place: {
+        place_id: 9901,
+        display_name: 'Torre Llanito Express, Caracas',
+        lat: '10.4984',
+        lon: '-66.8378'
+      }
+    },
+    {
+      nombre: 'Gimnasio',
+      tipo: 'Salud',
+      stars: 4.7,
+      icon: '🏋️',
+      place: {
+        place_id: 9902,
+        display_name: 'Gimnasio Llanito Fit, Caracas',
+        lat: '10.4851',
+        lon: '-66.8123'
+      }
+    },
+    {
+      nombre: 'Casa de Mamá',
+      tipo: 'Familia',
+      stars: 5.0,
+      icon: '🏡',
+      place: {
+        place_id: 9903,
+        display_name: 'Casa de Mamá (Llanito Stone, Caracas)',
+        lat: '10.4900',
+        lon: '-66.8250'
+      }
+    }
+  ];
+
+  viajesRecientes = [
+    { origen: 'A: Casa', destino: 'B: Oficina', fecha: 'Hoy, 09:30 AM', costo: 4.5, estado: 'Completado' },
+    { origen: 'D: Gimnasio', destino: 'A: Casa', fecha: 'Ayer, 06:15 PM', costo: 3.2, estado: 'Completado' },
+    { origen: 'B: Oficina', destino: 'D: Gimnasio', fecha: '16 May, 05:00 PM', costo: 5.8, estado: 'Completado' }
+  ];
+
+  estimaciones: any[] = [];
+
+  // Control de visibilidad de paneles laterales (Responsive Drawers)
+  leftPanelVisible: boolean = true;
+  rightPanelVisible: boolean = false;
+
+  toggleLeftPanel(): void {
+    this.leftPanelVisible = !this.leftPanelVisible;
+  }
+
+  toggleRightPanel(): void {
+    this.rightPanelVisible = !this.rightPanelVisible;
+  }
+
+  // Chat de soporte flotante
+  chatAbierto: boolean = false;
+  chatMensajes: any[] = [];
+  nuevoMensaje: string = '';
 
   displayedColumns: string[] = ['id', 'nombre', 'apellido', 'cedula', 'fecha', 'carros', 'banco', 'evaluacion', 'emergencia'];
   displayedColumns2: string[] = ['id', 'marca', 'color', 'placa', 'fecha', 'evaluacion', 'emergencia'];
@@ -74,6 +145,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
       break;
       case 2:
         this.setupAutocomplete();
+        this.setupEstimations();
+        this.inicializarChatSoporte();
       break;
       case 3:
         this.getVehiculosByIdFromChoferes();
@@ -167,16 +240,22 @@ export class MainPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Calcular costo (ejemplo: 1.5$ por KM)
-    const TARIFA_BASE_KM = 1.5;
-    const distanciaKm = this.calcularDistancia(
-      parseFloat(origen.lat), parseFloat(origen.lon),
-      parseFloat(destino.lat), parseFloat(destino.lon)
-    );
-    
-    // Costo mínimo 2.0$
-    let costoCalculado = +(distanciaKm * TARIFA_BASE_KM).toFixed(2);
-    if (costoCalculado < 2) costoCalculado = 2;
+    // Calcular costo según tipo seleccionado
+    let costoCalculado = 2.0;
+    if (this.mostrarEstimaciones && this.estimaciones.length > 0) {
+      const selected = this.estimaciones.find(e => e.tipo === this.vehiculoSeleccionado);
+      if (selected) {
+        costoCalculado = selected.tarifa;
+      }
+    } else {
+      const TARIFA_BASE_KM = 1.5;
+      const distanciaKm = this.calcularDistancia(
+        parseFloat(origen.lat), parseFloat(origen.lon),
+        parseFloat(destino.lat), parseFloat(destino.lon)
+      );
+      costoCalculado = +(distanciaKm * TARIFA_BASE_KM).toFixed(2);
+      if (costoCalculado < 2) costoCalculado = 2;
+    }
 
     // Función para acortar la dirección de Nominatim (evitar Data too long en BD)
     const acortarDireccion = (direccionCompleta: string) => {
@@ -278,5 +357,100 @@ export class MainPageComponent implements OnInit, OnDestroy {
         tipo: 2,
       },
     })
+  }
+
+  // Métodos del Dashboard Moderno
+  setupEstimations(): void {
+    this.lugarFormulario.valueChanges.subscribe(val => {
+      const { origen, destino } = val;
+      if (origen && destino && typeof origen === 'object' && typeof destino === 'object') {
+        const dist = this.calcularDistancia(
+          parseFloat(origen.lat), parseFloat(origen.lon),
+          parseFloat(destino.lat), parseFloat(destino.lon)
+        );
+        this.distanciaKm = +dist.toFixed(2);
+        
+        // Calcular costos dinámicos
+        const precioEstandar = Math.max(2.0, +(this.distanciaKm * 1.5).toFixed(2));
+        const precioPremium = Math.max(5.0, +(this.distanciaKm * 3.0).toFixed(2));
+        const precioVan = Math.max(4.0, +(this.distanciaKm * 2.5).toFixed(2));
+
+        // Calcular ETAs
+        const etaEstandar = Math.max(3, Math.round(5 + this.distanciaKm * 2));
+        const etaPremium = Math.max(2, Math.round(3 + this.distanciaKm * 1.5));
+        const etaVan = Math.max(5, Math.round(7 + this.distanciaKm * 2.5));
+
+        this.estimaciones = [
+          { tipo: 'estandar', nombre: 'Estándar', icon: 'directions_car', tarifa: precioEstandar, eta: etaEstandar, desc: 'Viaje rápido y económico' },
+          { tipo: 'premium', nombre: 'Premium', icon: 'local_taxi', tarifa: precioPremium, eta: etaPremium, desc: 'Alta gama con aire y chofer top' },
+          { tipo: 'van', nombre: 'Van', icon: 'airport_shuttle', tarifa: precioVan, eta: etaVan, desc: 'Espacioso, ideal para grupos' }
+        ];
+        this.mostrarEstimaciones = true;
+        this.rightPanelVisible = true;
+      } else {
+        this.mostrarEstimaciones = false;
+        this.estimaciones = [];
+      }
+    });
+  }
+
+  seleccionarDestinoFrecuente(frecuente: any): void {
+    // Establecer origen GPS si no está seleccionado
+    const origenActual = this.lugarFormulario.get('origen')?.value;
+    if (!origenActual || typeof origenActual === 'string') {
+      const gpsOrigen = {
+        place_id: 8801,
+        display_name: 'Localización GPS (Llanito Stone, Caracas)',
+        lat: '10.4900',
+        lon: '-66.8250'
+      };
+      this.lugarFormulario.patchValue({ origen: gpsOrigen });
+    }
+    
+    this.lugarFormulario.patchValue({ destino: frecuente.place });
+  }
+
+  seleccionarVehiculo(tipo: string): void {
+    this.vehiculoSeleccionado = tipo;
+  }
+
+  inicializarChatSoporte(): void {
+    this.chatMensajes = [
+      { sender: 'soporte', text: '¡Hola! Bienvenido al chat de soporte de Llanito Express. ¿En qué podemos ayudarte con tu traslado hoy?', time: '18:24' }
+    ];
+  }
+
+  toggleChat(): void {
+    this.chatAbierto = !this.chatAbierto;
+  }
+
+  enviarMensajeSupport(): void {
+    if (!this.nuevoMensaje.trim()) return;
+
+    this.chatMensajes.push({
+      sender: 'usuario',
+      text: this.nuevoMensaje,
+      time: 'Ahora'
+    });
+
+    const msg = this.nuevoMensaje;
+    this.nuevoMensaje = '';
+
+    setTimeout(() => {
+      let respuestaText = 'Entendido. Estamos procesando tu consulta en el sistema. Un operador humano te asistirá en unos momentos.';
+      if (msg.toLowerCase().includes('hola')) {
+        respuestaText = '¡Hola! Espero que estés excelente. Dime en qué te puedo colaborar hoy.';
+      } else if (msg.toLowerCase().includes('precio') || msg.toLowerCase().includes('tarifa') || msg.toLowerCase().includes('costo')) {
+        respuestaText = 'Nuestras tarifas se calculan automáticamente según la distancia vía GPS. ¡Puedes ver el desglose detallado en el panel derecho!';
+      } else if (msg.toLowerCase().includes('gps') || msg.toLowerCase().includes('origen')) {
+        respuestaText = 'Tu ubicación GPS actual está confirmada de forma segura en Llanito Express.';
+      }
+
+      this.chatMensajes.push({
+        sender: 'soporte',
+        text: respuestaText,
+        time: 'Ahora'
+      });
+    }, 1200);
   }
 }
