@@ -5,52 +5,105 @@
     </div>
 
     <mat-card class="glass-card profile-card mb-5">
-        <div class="flex flex-column md:flex-row align-items-center w-full">
+        <div class="flex flex-column lg:flex-row align-items-center w-full justify-content-between gap-4">
             
-            <!-- Avatar -->
-            <div class="avatar-wrapper mb-3 md:mb-0 flex align-items-center justify-content-center" style="padding: 0;">
-                <mat-icon style="font-size: 100px; width: 100px; height: 100px;">account_circle</mat-icon>
-            </div>
+            <div class="flex flex-column md:flex-row align-items-center gap-4 flex-1">
+                <!-- Avatar premium con iniciales y anillo de brillo pulsante -->
+                <div class="avatar-container mb-3 md:mb-0">
+                    <div class="avatar-glow-ring"></div>
+                    <div class="avatar-initials-bubble">
+                        {{user.nombre?.charAt(0) | uppercase}}{{user.apellido?.charAt(0) | uppercase}}
+                    </div>
+                </div>
 
-            <!-- Datos Principales -->
-            <div class="user-main-info flex-1 px-4 text-center md:text-left">
-                <h1 class="user-name m-0">{{user.nombre | titlecase}} {{user.apellido | titlecase}}</h1>
-                <p class="user-email mt-1 mb-2">{{user.email_user}}</p>
-                <div class="flex flex-wrap justify-content-center md:justify-content-start gap-2 mt-3">
-                    <span class="info-badge role-badge">
-                        <mat-icon>verified_user</mat-icon> {{user.role_nombre}}
-                    </span>
-                    <span class="info-badge default-badge">
-                        <mat-icon>badge</mat-icon> CI: {{user.cedula}}
-                    </span>
-                    <span class="info-badge default-badge">
-                        <mat-icon>cake</mat-icon> Nacimiento: {{user.fechaNacimiento}}
-                    </span>
+                <!-- Datos Principales del Usuario -->
+                <div class="user-main-info text-center md:text-left">
+                    <h1 class="user-name m-0">{{user.nombre | titlecase}} {{user.apellido | titlecase}}</h1>
+                    <p class="user-email mt-1 mb-3">{{user.email_user}}</p>
+                    <div class="flex flex-wrap justify-content-center md:justify-content-start gap-2">
+                        <span class="info-badge role-badge">
+                            <mat-icon>verified_user</mat-icon> {{user.role_nombre}}
+                        </span>
+                        <span class="info-badge ci-badge">
+                            <mat-icon>badge</mat-icon> CI: {{user.cedula}}
+                        </span>
+                        <span class="info-badge bday-badge">
+                            <mat-icon>cake</mat-icon> {{user.fechaNacimiento}}
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Sección de Saldo -->
-            <div class="balance-section mt-4 md:mt-0 p-3 text-center md:text-right">
-                <p class="balance-label m-0">Saldo Disponible</p>
-                <h2 class="balance-amount m-0 mb-3" [class.negative]="(user.saldo ? +user.saldo : 0) < 0">${{user.saldo || 0}}</h2>
-                <button mat-flat-button color="primary" class="add-balance-btn" (click)="openModalAgregarSaldo()">
-                    <mat-icon>account_balance_wallet</mat-icon>
-                    <span class="ml-1">Agregar Saldo</span>
-                </button>
+            <!-- Tarjeta Monedero Digital Llanito Pay -->
+            <div class="wallet-card-container mt-4 lg:mt-0 w-full md:w-auto">
+                <div class="wallet-glass-card">
+                    <div class="wallet-card-glow"></div>
+                    <div class="wallet-header">
+                        <span class="wallet-brand">Llanito Pay</span>
+                        <mat-icon class="wallet-chip">sim_card</mat-icon>
+                    </div>
+                    <div class="wallet-body">
+                        <span class="wallet-label">Saldo Disponible</span>
+                        <h2 class="wallet-amount" [class.negative]="(user.saldo ? +user.saldo : 0) < 0">
+                            ${{user.saldo || '0.00'}}
+                        </h2>
+                    </div>
+                    <div class="wallet-footer">
+                        <span class="wallet-user-name">{{user.nombre | titlecase}} {{user.apellido | titlecase}}</span>
+                        <button mat-flat-button class="add-balance-glass-btn" (click)="openModalAgregarSaldo()">
+                            <mat-icon>account_balance_wallet</mat-icon>
+                            <span>Recargar</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </div>
     </mat-card>
 
-    <!-- Historial de Traslados -->
-    <h2 class="section-title mb-3">Historial de Traslados</h2>
+    <!-- Historial de Traslados Modernizado -->
+    <div class="flex items-center gap-2 mb-3 mt-4">
+        <mat-icon class="color-primary-icon">history</mat-icon>
+        <h2 class="section-title">Historial de Traslados</h2>
+    </div>
     <mat-card class="glass-card table-card p-0">
         <div class="table-container">
-            <app-table
-                [keys]="keys"
-                [displayedColumns]="displayedColumns" 
-                [data]="data">
-            </app-table>
+            <table class="premium-table">
+                <thead>
+                    <tr>
+                        <th>Chofer</th>
+                        <th>Origen</th>
+                        <th>Destino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data" class="premium-row">
+                        <!-- Celda Chofer con Mini Avatar -->
+                        <td class="driver-cell">
+                            <div class="driver-avatar-mini">
+                                <mat-icon>person</mat-icon>
+                            </div>
+                            <span class="driver-name">{{ item.nombre_chofer || 'Por asignar' | titlecase }}</span>
+                        </td>
+                        <!-- Celda Origen -->
+                        <td class="location-cell origen">
+                            <mat-icon class="loc-dot primary">gps_fixed</mat-icon>
+                            <span class="loc-text">{{ item.nombre_origen }}</span>
+                        </td>
+                        <!-- Celda Destino -->
+                        <td class="location-cell destino">
+                            <mat-icon class="loc-dot accent">location_on</mat-icon>
+                            <span class="loc-text">{{ item.nombre_destino }}</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="data.length === 0">
+                        <td colspan="3" class="empty-cell">
+                            <mat-icon class="empty-icon">directions_car</mat-icon>
+                            <p class="empty-text">No tienes traslados registrados en tu historial.</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </mat-card>
 </div>

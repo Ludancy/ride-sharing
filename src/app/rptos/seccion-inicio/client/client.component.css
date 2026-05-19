@@ -1,19 +1,19 @@
 .profile-container {
     max-width: 1200px;
     margin: 0 auto;
-    font-family: 'Inter', sans-serif;
-    padding: 1rem;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    padding: 2rem 1.5rem;
 }
 
 @media (max-width: 768px) {
     .profile-container {
-        padding: 0.5rem;
+        padding: 1rem 0.75rem;
     }
 }
 
 .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     color: var(--text-main);
     margin: 0;
     letter-spacing: -0.5px;
@@ -21,94 +21,111 @@
 
 @media (max-width: 768px) {
     .section-title {
-        font-size: 1.25rem;
+        font-size: 1.3rem;
     }
 }
 
+/* Glassmorphism Profile Card */
 .profile-card {
-    border-radius: 24px;
-    padding: 32px 24px;
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 28px !important;
+    padding: 32px !important;
+    box-shadow: 0 20px 40px rgba(31, 38, 135, 0.06), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    position: relative;
+    overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    .profile-card {
-        padding: 20px 16px;
-        border-radius: 16px;
-    }
+/* Pulsing Glowing Avatar */
+.avatar-container {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.avatar-wrapper {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+.avatar-initials-bubble {
+    width: 96px;
+    height: 96px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
-    flex-shrink: 0;
-}
-
-@media (max-width: 768px) {
-    .avatar-wrapper {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-.profile-avatar-icon {
-    font-size: 56px;
-    width: 56px;
-    height: 56px;
-    color: white;
-}
-
-@media (max-width: 768px) {
-    .profile-avatar-icon {
-        font-size: 40px;
-        width: 40px;
-        height: 40px;
-    }
-}
-
-.user-name {
-    font-size: 1.8rem;
+    font-size: 2.1rem;
     font-weight: 800;
-    color: var(--text-main);
+    color: #ffffff;
     letter-spacing: -0.5px;
+    z-index: 2;
+    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.35);
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-@media (max-width: 768px) {
-    .user-name {
-        font-size: 1.4rem;
+.avatar-glow-ring {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.0) 70%);
+    border: 2px solid rgba(99, 102, 241, 0.4);
+    z-index: 1;
+    animation: avatarPulse 2.2s infinite ease-in-out;
+}
+
+@keyframes avatarPulse {
+    0% {
+        transform: scale(0.92);
+        opacity: 0.5;
     }
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+    100% {
+        transform: scale(0.92);
+        opacity: 0.5;
+    }
+}
+
+/* User Info Styling */
+.user-name {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: -0.8px;
+    background: linear-gradient(135deg, var(--text-main) 30%, #4338ca 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .user-email {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: var(--text-muted);
-}
-
-@media (max-width: 768px) {
-    .user-email {
-        font-size: 0.9rem;
-    }
-}
-
-.info-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
     font-weight: 500;
 }
 
-@media (max-width: 768px) {
-    .info-badge {
-        font-size: 0.75rem;
-        padding: 4px 8px;
-    }
+/* Modern Glass Pill Badges */
+.info-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+}
+
+.info-badge:hover {
+    transform: translateY(-2px);
 }
 
 .info-badge mat-icon {
@@ -118,113 +135,418 @@
     margin-right: 6px;
 }
 
-@media (max-width: 768px) {
-    .info-badge mat-icon {
-        font-size: 14px;
-        width: 14px;
-        height: 14px;
-        margin-right: 4px;
-    }
-}
-
 .role-badge {
-    background-color: rgba(79, 70, 229, 0.1);
+    background-color: rgba(99, 102, 241, 0.1) !important;
+    color: var(--primary-color) !important;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.role-badge:hover {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.ci-badge {
+    background-color: rgba(14, 165, 233, 0.08) !important;
+    color: #0ea5e9 !important;
+    border: 1px solid rgba(14, 165, 233, 0.15);
+}
+
+.ci-badge:hover {
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+}
+
+.bday-badge {
+    background-color: rgba(236, 72, 153, 0.08) !important;
+    color: #ec4899 !important;
+    border: 1px solid rgba(236, 72, 153, 0.15);
+}
+
+.bday-badge:hover {
+    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+}
+
+/* Monedero Digital Premium (Llanito Pay Virtual Card) */
+.wallet-card-container {
+    perspective: 1000px;
+    flex-shrink: 0;
+}
+
+.wallet-glass-card {
+    width: 330px;
+    height: 185px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 24px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wallet-glass-card:hover {
+    transform: translateY(-6px) rotateX(4deg) rotateY(-2deg);
+    box-shadow: 0 25px 45px rgba(99, 102, 241, 0.15), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.wallet-card-glow {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, rgba(99, 102, 241, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.wallet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+.wallet-brand {
+    font-weight: 900;
+    font-size: 1.05rem;
     color: var(--primary-color);
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
+    opacity: 0.9;
 }
 
-.default-badge {
-    background-color: var(--bg-light);
-    color: var(--text-muted);
-    border: 1px solid var(--border-light);
+.wallet-chip {
+    color: #cca43b !important;
+    font-size: 28px !important;
+    width: 28px !important;
+    height: 28px !important;
+    opacity: 0.85;
+    transform: rotate(90deg);
 }
 
-.balance-section {
-    min-width: 200px;
-    border-left: 2px dashed var(--border-light);
+.wallet-body {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    margin-top: 8px;
 }
 
-@media (max-width: 768px) {
-    .balance-section {
-        border-left: none;
-        border-top: 2px dashed var(--border-light);
-        width: 100%;
-        padding-top: 20px !important;
-        min-width: auto;
-    }
-}
-
-.balance-label {
-    font-size: 0.9rem;
+.wallet-label {
+    font-size: 0.72rem;
+    font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-weight: 600;
 }
 
-@media (max-width: 768px) {
-    .balance-label {
-        font-size: 0.8rem;
-    }
-}
-
-.balance-amount {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #4caf50;
+.wallet-amount {
+    font-size: 2.15rem;
+    font-weight: 900;
+    color: #10b981;
+    margin: 4px 0 0 0;
     letter-spacing: -1px;
+    text-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
 }
 
-@media (max-width: 768px) {
-    .balance-amount {
-        font-size: 2rem;
-    }
+.wallet-amount.negative {
+    color: #ef4444;
+    text-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
 }
 
-.balance-amount.negative {
-    color: #f44336;
+.wallet-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
 }
 
-.add-balance-btn {
-    border-radius: 12px;
-    padding: 0 24px;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-}
-
-@media (max-width: 768px) {
-    .add-balance-btn {
-        padding: 0 16px;
-        font-size: 0.9rem;
-    }
-}
-
-.table-card {
-    border-radius: 24px;
+.wallet-user-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    max-width: 160px;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-@media (max-width: 768px) {
-    .table-card {
-        border-radius: 16px;
+/* Glassmorphic Recargar Button inside Card */
+.add-balance-glass-btn {
+    background: rgba(99, 102, 241, 0.12) !important;
+    border: 1px solid rgba(99, 102, 241, 0.25) !important;
+    color: var(--primary-color) !important;
+    border-radius: 12px !important;
+    padding: 0 16px !important;
+    height: 34px !important;
+    line-height: 34px !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    transition: all 0.25s ease !important;
+}
+
+.add-balance-glass-btn:hover {
+    background: var(--primary-color) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.25) !important;
+    transform: translateY(-1px);
+}
+
+.add-balance-glass-btn mat-icon {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 4px;
+    margin-left: -2px;
+}
+
+@media (max-width: 480px) {
+    .wallet-glass-card {
+        width: 100%;
+        height: 175px;
     }
+}
+
+/* History Grid card */
+.table-card {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 24px !important;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.04) !important;
 }
 
 .table-container {
     overflow-x: auto;
 }
 
-/* Mobile-specific adjustments */
-@media (max-width: 480px) {
-    .user-main-info {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
+.color-primary-icon {
+    color: var(--primary-color) !important;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+/* Responsiveness adjustments */
+@media (max-width: 992px) {
+    .profile-card {
+        padding: 24px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        border-radius: 20px !important;
+        padding: 20px !important;
     }
     
-    .flex.flex-wrap.justify-content-center.md\:justify-content-start {
-        justify-content: center !important;
+    .avatar-initials-bubble {
+        width: 86px;
+        height: 86px;
+        font-size: 1.8rem;
     }
     
-    .add-balance-btn {
-        width: 100%;
+    .avatar-glow-ring {
+        width: 98px;
+        height: 98px;
     }
+}
+
+/* Premium Glassmorphic Table Styles */
+.premium-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+}
+
+.premium-table th {
+    padding: 16px 24px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(99, 102, 241, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.8px;
+}
+
+.premium-row {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-row:hover {
+    background: rgba(99, 102, 241, 0.05);
+    transform: translateY(-1.5px);
+}
+
+.premium-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    font-size: 0.92rem;
+    color: var(--text-main);
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+/* Driver Avatar Cell */
+.driver-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.driver-avatar-mini {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.08);
+}
+
+.driver-avatar-mini mat-icon {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    color: var(--primary-color);
+}
+
+.driver-name {
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* Route Location cells */
+.location-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    vertical-align: middle;
+}
+
+.loc-dot {
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.loc-dot.primary {
+    color: var(--primary-color);
+}
+
+.loc-dot.accent {
+    color: var(--accent-color);
+}
+
+.loc-text {
+    font-weight: 500;
+    color: var(--text-main);
+    opacity: 0.9;
+}
+
+/* Status Pill with Glow Effect */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: capitalize;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+/* Completed Status (Completado / Finalizado / Aceptado) */
+.status-pill.completado, 
+.status-pill.finalizado, 
+.status-pill.aceptado,
+.status-pill.activo {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-pill.completado .status-dot,
+.status-pill.finalizado .status-dot,
+.status-pill.aceptado .status-dot,
+.status-pill.activo .status-dot {
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+}
+
+/* Pending Status (Pendiente) */
+.status-pill.pendiente {
+    background: rgba(99, 102, 241, 0.08) !important;
+    color: var(--primary-color) !important;
+    border: 1px solid rgba(99, 102, 241, 0.18);
+}
+
+.status-pill.pendiente .status-dot {
+    background: var(--primary-color);
+    box-shadow: 0 0 8px var(--primary-color);
+}
+
+/* Cancelled Status (Cancelado) */
+.status-pill.cancelado {
+    background: rgba(239, 68, 68, 0.08) !important;
+    color: #ef4444 !important;
+    border: 1px solid rgba(239, 68, 68, 0.18);
+}
+
+.status-pill.cancelado .status-dot {
+    background: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+}
+
+/* Cost amount styling */
+.cost-amount {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text-main);
+}
+
+/* Empty State cells */
+.empty-cell {
+    padding: 64px 32px !important;
+    text-align: center !important;
+}
+
+.empty-icon {
+    font-size: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+    opacity: 0.65;
+}
+
+.empty-text {
+    font-weight: 700;
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
 }
