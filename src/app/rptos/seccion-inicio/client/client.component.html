@@ -79,21 +79,27 @@
                 <tbody>
                     <tr *ngFor="let item of data" class="premium-row">
                         <!-- Celda Chofer con Mini Avatar -->
-                        <td class="driver-cell">
-                            <div class="driver-avatar-mini">
-                                <mat-icon>person</mat-icon>
+                        <td>
+                            <div class="driver-cell">
+                                <div class="driver-avatar-mini">
+                                    <mat-icon>person</mat-icon>
+                                </div>
+                                <span class="driver-name">{{ item.nombre_chofer || 'Por asignar' | titlecase }}</span>
                             </div>
-                            <span class="driver-name">{{ item.nombre_chofer || 'Por asignar' | titlecase }}</span>
                         </td>
                         <!-- Celda Origen -->
-                        <td class="location-cell origen">
-                            <mat-icon class="loc-dot primary">gps_fixed</mat-icon>
-                            <span class="loc-text">{{ item.nombre_origen }}</span>
+                        <td>
+                            <div class="location-cell origen">
+                                <mat-icon class="loc-dot primary">gps_fixed</mat-icon>
+                                <span class="loc-text">{{ item.nombre_origen }}</span>
+                            </div>
                         </td>
                         <!-- Celda Destino -->
-                        <td class="location-cell destino">
-                            <mat-icon class="loc-dot accent">location_on</mat-icon>
-                            <span class="loc-text">{{ item.nombre_destino }}</span>
+                        <td>
+                            <div class="location-cell destino">
+                                <mat-icon class="loc-dot accent">location_on</mat-icon>
+                                <span class="loc-text">{{ item.nombre_destino }}</span>
+                            </div>
                         </td>
                     </tr>
                     <tr *ngIf="data.length === 0">
