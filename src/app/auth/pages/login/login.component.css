@@ -85,6 +85,26 @@
     font-size: 0.95rem !important;
 }
 
+.auth-demo-btn {
+    padding: 24px 0 !important;
+    font-size: 1.05rem !important;
+    border-radius: 16px !important;
+    border: 2px dashed var(--accent-color) !important;
+    color: var(--accent-color) !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.auth-demo-btn:hover {
+    background: rgba(14, 165, 233, 0.08) !important;
+    border-style: solid !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(14, 165, 233, 0.3) !important;
+}
+
 @media (max-width: 480px) {
     .modern-auth-card {
         padding: 2rem 1.5rem;

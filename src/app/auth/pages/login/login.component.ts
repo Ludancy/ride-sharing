@@ -39,11 +39,11 @@ export class LoginComponent {
       }
   }
 
-  // login():void {
-  //   const {email_user, password} = this.authFormulario.value;
-  //   this.authService.login(email_user, password)
-  //   .subscribe(success => {
-  //     console.log(success);
-  //   })
-  // }
+  loginDemo(): void {
+    this.authFormulario.setValue({
+      email_user: 'invitado@gmail.com',
+      password: '12345678'
+    });
+    this.login();
+  }
 }
